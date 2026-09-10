@@ -1,0 +1,13 @@
+[project]
+name = "retail_employee"
+authors = [{name = "NARDO INC", email = "it@nardo.ca"}]
+description = "Crafted retail employee portal: staff home, shifts, clock, leave, sales goals, register close"
+requires-python = ">=3.10"
+readme = "README.md"
+dynamic = ["version"]
+
+[build-system]
+requires = ["flit_core >=3.4,<4"]
+build-backend = "flit_core.buildapi"
+
+[tool.bench.dev-dependencies]

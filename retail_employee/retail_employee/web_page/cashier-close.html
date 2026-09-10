@@ -1,0 +1,63 @@
+    <h3>Cashier Close</h3>
+    <h3>Total Cash: $<span id="totalAmount">0.00</span></h3>
+    <button onclick="copyToClipboard()">Copy to Clipboard</button>
+
+    <form id="cashierForm">
+        <table class="center" id="money"><!-- For Bills -->
+            <tr>
+                <th colspan="2">Bills:</th>
+                <th></th>
+                <th colspan="2">Coins:</th>
+            </tr>
+            <tr>
+                <td>$100:</td>
+                <td><input type="number" id="hundred" min="0" oninput="calculateTotal()" value="0"></td>
+                <td class="empty"></td>
+                <td>Twoonie ($2):</td>
+                <td>
+                    <input type="number" id="Twoonies" min="0" oninput="calculateTotal()" value="0" onblur="checkCoinValue(this)" />
+                </td>
+            </tr>
+            <tr>
+                <td>$50:</td>
+                <td><input type="number" id="fifty" min="0" oninput="calculateTotal()" value="0"></td>
+                <td class="empty"></td>
+                <td>Loonies ($1):</td>
+                <td>
+                    <input type="number" id="Loonies" min="0" oninput="calculateTotal()" value="0" onblur="checkCoinValue(this)" />
+                </td>
+            </tr>
+            <tr>
+                <td>$20:</td>
+                <td><input type="number" id="twenty" min="0" oninput="calculateTotal()" value="0"></td>
+                <td class="empty"></td>
+                <td>Quarters (25¢):</td>
+                <td>
+                    <input type="number" id="Quarters" min="0" oninput="calculateTotal()" value="0" onblur="checkCoinValue(this)" />
+                </td>
+            </tr>
+            <tr>
+                <td>$10:</td>
+                <td><input type="number" id="ten" min="0" oninput="calculateTotal()" value="0"></td>
+                <td class="empty"></td>
+                <td>Dimes (10¢):</td>
+                <td>
+                    <input type="number" id="Dimes" min="0" oninput="calculateTotal()" value="0" onblur="checkCoinValue(this)" />
+                </td>
+            </tr>
+            <tr>
+                <td>$5:</td>
+                <td><input type="number" id="five" min="0" oninput="calculateTotal()" value="0"></td>
+                <td class="empty"></td>
+                <td>Nickels (5¢):</td>
+                <td>
+                    <input type="number" id="Nickels" min="0" oninput="calculateTotal()" value="0" onblur="checkCoinValue(this)" />
+                </td>
+            </tr>
+            <tr>
+                <td colspan="5">
+                    <div id="CoinsMessage" class="coin-message"></div>
+                </td>
+            </tr>
+        </table>
+    </form>

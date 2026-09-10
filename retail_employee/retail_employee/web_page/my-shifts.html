@@ -1,0 +1,10 @@
+{% if frappe.session.user == 'Guest' %}
+  <div class="mgr-gate">
+    <h2>My Shifts</h2>
+    <p>Sign in to view your schedule.</p>
+    <p><a class="mgr-btn primary" href="/login?redirect-to=/manage-shifts">Log in</a></p>
+  </div>
+{% else %}
+  <script>window.location.replace('/manage-shifts');</script>
+  <p><a href="/manage-shifts">Continue to My Shifts / Manage Shifts</a></p>
+{% endif %}

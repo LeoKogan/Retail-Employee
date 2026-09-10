@@ -1,0 +1,263 @@
+{% set today_date = frappe.utils.getdate(frappe.utils.nowdate()) %}
+{% set employees = frappe.get_all('Employee', filters={'user_id': frappe.session.user}, fields=['name', 'employee_name', 'first_name'], limit=1) %}
+
+{% if frappe.session.user == 'Guest' or not employees %}
+<div class="sg-gate">
+  <h2>Sales Goals</h2>
+  <p>Sign in with your employee account to see today's targets and commissions.</p>
+  <a class="sg-btn" href="/login?redirect-to=/sales-goals">Sign in</a>
+</div>
+{% else %}
+{% set Employee = employees[0] %}
+{% set Nombre = Employee.first_name or Employee.employee_name or Employee.name %}
+{% set Empleado = Employee.name %}
+{% set periods = frappe.get_all('Payroll Period', filters={'start_date': ['<=', today_date], 'end_date': ['>=', today_date]}, fields=['name', 'start_date', 'end_date'], limit=1) %}
+
+<div class="sg-page">
+  <div class="sg-toolbar">
+    <div>
+      <h2>Sales Goals &amp; Commissions</h2>
+      <div class="sg-sub">Hello {{ Nombre }} · {{ frappe.utils.formatdate(today_date, "d MMM yyyy") }}</div>
+    </div>
+    {% if periods %}
+    <span class="sg-pill">{{ periods[0].name }}</span>
+    {% endif %}
+  </div>
+
+  {% if not periods %}
+  <div class="sg-empty">No payroll period covers today. Ask a manager to check Payroll Period dates.</div>
+  {% else %}
+  {% set Payroll_Period = periods[0] %}
+
+  {% set info_rows = frappe.get_all('CRAFTED Employee Info', filters={'employee': Empleado}, fields=['employee_email', 'crafted_commission_rate', 'personal_commission_rate'], limit=1) %}
+  {% set store_commission_rate = (info_rows[0].crafted_commission_rate if info_rows else 0) or 0 %}
+  {% set personal_commission_rate = (info_rows[0].personal_commission_rate if info_rows else 0) or 0 %}
+
+  {% set Sales_Targets = frappe.get_all('CRAFTED Sales Targets',
+      filters={'sales_target_date': ['between', [Payroll_Period.start_date, Payroll_Period.end_date]]},
+      fields=['name', 'outlet_name', 'sales_target', 'actual_sales', 'sales_target_date'],
+      order_by='outlet_name',
+      limit_page_length=500
+  ) %}
+
+  {% set commissions = frappe.get_all('CRAFTED Sales Commissions',
+      filters={'payroll_period': Payroll_Period.name},
+      fields=['name', 'total_commissions', 'total_worked_hours'],
+      limit=1
+  ) %}
+  {% set Sales_Commissions = commissions[0] if commissions else none %}
+
+  {% set total_hours = 0 %}
+  {% set total_store_commission = 0 %}
+  {% set total_personal_sales = 0 %}
+  {% set total_personal_commission = 0 %}
+  {% if Sales_Commissions %}
+    {% set details = frappe.get_all('CRAFTED Employee Commissions Details',
+        filters={'parent': Sales_Commissions.name, 'employee': Empleado},
+        fields=['total_hours', 'total_store_commission', 'total_personal_sales', 'total_personal_commission'],
+        limit=1
+    ) %}
+    {% if details %}
+      {% set total_hours = details[0].total_hours or 0 %}
+      {% set total_store_commission = details[0].total_store_commission or 0 %}
+      {% set total_personal_sales = details[0].total_personal_sales or 0 %}
+      {% set total_personal_commission = details[0].total_personal_commission or 0 %}
+    {% endif %}
+  {% endif %}
+
+  {% set ns = namespace(sales_target=0, actual_sales=0, rows=0) %}
+
+  <section class="sg-section">
+    <h3>Today's Goals</h3>
+    <div class="sg-table-wrap">
+      <table class="sg-table">
+        <thead>
+          <tr>
+            <th>Outlet</th>
+            <th>Target</th>
+            <th>Actual</th>
+            <th>Difference</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for salegoal in Sales_Targets %}
+            {% if salegoal.sales_target_date and salegoal.sales_target_date.strftime('%Y-%m-%d') == today_date.strftime('%Y-%m-%d') %}
+              {% set ns.sales_target = ns.sales_target + (salegoal.sales_target or 0) %}
+              {% set ns.actual_sales = ns.actual_sales + (salegoal.actual_sales or 0) %}
+              {% set ns.rows = ns.rows + 1 %}
+              {% set tgt = salegoal.sales_target or 0 %}
+              {% set act = salegoal.actual_sales or 0 %}
+              <tr>
+                <td class="outlet">{{ salegoal.outlet_name }}</td>
+                <td id="target-{{ loop.index0 + 1 }}" class="target">${{ "%.0f"|format(tgt) }}</td>
+                <td id="actual-{{ loop.index0 + 1 }}" class="actual">${{ "%.0f"|format(act) }}</td>
+                {% if tgt - act > 0 %}
+                  <td class="difference">${{ "%.0f"|format(tgt - act) }}</td>
+                  <td class="togo">
+                    <div class="progress-container">
+                      <div class="progress-bar" id="progress-bar-{{ loop.index0 + 1 }}" style="width: 0%;">0%</div>
+                    </div>
+                  </td>
+                {% else %}
+                  <td class="over">+ ${{ "%.0f"|format(act - tgt) }}</td>
+                  <td class="over">Over</td>
+                {% endif %}
+              </tr>
+            {% endif %}
+          {% endfor %}
+          {% if ns.rows == 0 %}
+          <tr><td colspan="5" class="sg-empty-row">No outlet targets for today yet.</td></tr>
+          {% else %}
+          <tr class="sg-total">
+            <td class="outlet">CRAFTED</td>
+            <td id="target-0" class="target">${{ "%.0f"|format(ns.sales_target) }}</td>
+            <td id="actual-0" class="actual">${{ "%.0f"|format(ns.actual_sales) }}</td>
+            {% if ns.sales_target - ns.actual_sales > 0 %}
+              <td class="difference">${{ "%.0f"|format(ns.sales_target - ns.actual_sales) }}</td>
+              <td class="togo">
+                <div class="progress-container">
+                  <div class="progress-bar" id="progress-bar-0" style="width: 0%;">0%</div>
+                </div>
+              </td>
+            {% else %}
+              <td class="over">+ ${{ "%.0f"|format(ns.actual_sales - ns.sales_target) }}</td>
+              <td class="over">Over</td>
+            {% endif %}
+          </tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
+    <p class="sg-footer">Actuals update about every hour.</p>
+  </section>
+
+  <section class="sg-section">
+    <h3>Commissions</h3>
+    <h4>Team contributions this payroll cycle</h4>
+    <div class="sg-table-wrap">
+      <table class="sg-table">
+        <thead>
+          <tr>
+            <th>Sum of sales over goals (biweekly)</th>
+            <th>Team hours</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            {% if Sales_Commissions %}
+            <td>${{ "%.0f"|format(Sales_Commissions.total_commissions or 0) }}</td>
+            <td>{{ Sales_Commissions.total_worked_hours or 0 }}</td>
+            {% else %}
+            <td>$0</td>
+            <td>0</td>
+            {% endif %}
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4>Team-based commissions (SCS)</h4>
+    <div class="sg-table-wrap">
+      <table class="sg-table">
+        <thead>
+          <tr>
+            <th>Your hours</th>
+            <th>Your team commission rate</th>
+            <th>Your team-based commissions (SCS)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{ total_hours }} hrs</td>
+            <td>{{ store_commission_rate }}%</td>
+            <td>${{ "%.2f"|format(total_store_commission) }}</td>
+          </tr>
+          <tr>
+            <td class="sg-note" colspan="3">
+              <ul>
+                <li>Total Team Commissions = Sum of Sales Over Goals / Total Team Hours × Your Hours × {{ store_commission_rate }}%</li>
+                <li>Sum of Sales Over Goals = Total sales before taxes − store set goals</li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <td class="sg-note" colspan="3">Estimated numbers — actuals are calculated at the end of the payroll period from actual sales and hours.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h4>Average sales per hour — ranking</h4>
+    {% if Sales_Commissions %}
+    {% set ranking = frappe.get_all('CRAFTED Employee Commissions Details',
+        filters={'parent': Sales_Commissions.name},
+        fields=['employee', 'employee_name', 'total_hours', 'total_personal_sales', 'average_sales_per_hour'],
+        order_by='average_sales_per_hour desc',
+        limit_page_length=200
+    ) %}
+    <div class="sg-table-wrap">
+      <table class="sg-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Employee</th>
+            <th>Average sales / hour</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% set ns2 = namespace(rank=0) %}
+          {% for row in ranking %}
+            {% if row.total_hours and row.total_hours > 0 %}
+              {% set ns2.rank = ns2.rank + 1 %}
+              {% set avg = row.average_sales_per_hour if row.average_sales_per_hour is not none else (row.total_personal_sales / row.total_hours) %}
+              <tr {% if row.employee == Empleado %}class="sg-me"{% endif %}>
+                <td>{{ ns2.rank }}</td>
+                <td>{{ row.employee_name or row.employee }}{% if row.employee == Empleado %} <span class="sg-you">you</span>{% endif %}</td>
+                <td>${{ "%.2f"|format(avg) }}</td>
+              </tr>
+            {% endif %}
+          {% endfor %}
+          {% if ns2.rank == 0 %}
+          <tr><td colspan="3" class="sg-empty-row">No data available for this payroll period.</td></tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <p class="sg-footer">No active Sales Commissions record for the current payroll period.</p>
+    {% endif %}
+
+    <h4>Personal commissions (PCS)</h4>
+    <div class="sg-table-wrap">
+      <table class="sg-table">
+        <thead>
+          <tr>
+            <th>Your sales</th>
+            <th>Your personal commission rate (PCS)</th>
+            <th>Your total personal commission</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>${{ "%.2f"|format(total_personal_sales) }}</td>
+            <td>{{ personal_commission_rate }}%</td>
+            <td>${{ "%.2f"|format(total_personal_commission) }}</td>
+          </tr>
+          <tr>
+            <td class="sg-note" colspan="3">
+              <ul>
+                <li>Total Personal Commission = {{ personal_commission_rate }}% of all sales before taxes made by you.</li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <td class="sg-note" colspan="3">Estimated numbers — actuals are calculated at the end of the payroll period from actual sales and hours.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+  {% endif %}
+</div>
+{% endif %}

@@ -1,0 +1,134 @@
+{% if frappe.session.user == 'Guest' %}
+  <div class="mt-gate">
+    <h2>My Tasks</h2>
+    <p>Sign in to view and complete your daily tasks.</p>
+    <p><a class="mt-btn primary" href="/login?redirect-to=/my-tasks">Log in</a></p>
+  </div>
+{% else %}
+{% set today = frappe.utils.getdate() %}
+{% set day_offset = frappe.utils.cint(frappe.form_dict.d or 0) %}
+{% set view_day = frappe.utils.add_days(today, day_offset) %}
+{% set view_day_str = view_day.strftime('%Y-%m-%d') %}
+{% set weekday_names = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'] %}
+{% set month_names = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'] %}
+
+{% set open_tasks = frappe.get_all('ToDo',
+  filters={
+    'allocated_to': frappe.session.user,
+    'date': view_day_str,
+    'status': 'Open'
+  },
+  fields=['name','description','status','priority','date','allocated_to','reference_type','reference_name'],
+  order_by='priority asc, creation asc',
+  limit_page_length=200) %}
+
+{% set done_tasks = frappe.get_all('ToDo',
+  filters={
+    'allocated_to': frappe.session.user,
+    'date': view_day_str,
+    'status': 'Closed'
+  },
+  fields=['name','description','status','priority','date','allocated_to'],
+  order_by='modified desc',
+  limit_page_length=200) %}
+
+{% set overdue_tasks = [] %}
+{% if day_offset == 0 %}
+  {% set overdue_tasks = frappe.get_all('ToDo',
+    filters={
+      'allocated_to': frappe.session.user,
+      'status': 'Open',
+      'date': ['<', view_day_str]
+    },
+    fields=['name','description','status','priority','date'],
+    order_by='date asc, priority asc',
+    limit_page_length=50) %}
+{% endif %}
+
+<div class="mt-page" data-day="{{ view_day_str }}">
+  <div class="mt-toolbar">
+    <h2>My Tasks</h2>
+    <div class="mt-nav">
+      <a class="mt-btn secondary" href="/my-tasks?d={{ day_offset - 1 }}" title="Previous day">‹ Prev</a>
+      {% if day_offset != 0 %}
+      <a class="mt-btn secondary" href="/my-tasks">Today</a>
+      {% endif %}
+      <span class="mt-nav-range">{{ weekday_names[view_day.weekday()] }}, {{ month_names[view_day.month - 1] }} {{ view_day.strftime('%d') }}, {{ view_day.year }}</span>
+      <a class="mt-btn secondary" href="/my-tasks?d={{ day_offset + 1 }}" title="Next day">Next ›</a>
+    </div>
+    <div class="mt-toolbar-actions">
+      <span class="mt-count" id="mtCountOpen">{{ open_tasks|length }} open</span>
+      <span class="mt-count muted">{{ done_tasks|length }} done</span>
+    </div>
+  </div>
+
+  {% if overdue_tasks %}
+  <section class="mt-section">
+    <h3 class="mt-section-title overdue">Overdue</h3>
+    <ul class="mt-list" id="mtOverdue">
+      {% for t in overdue_tasks %}
+      <li class="mt-item" data-name="{{ t.name }}">
+        <label class="mt-check-wrap">
+          <input type="checkbox" class="mt-complete" data-name="{{ t.name }}">
+          <span class="mt-body">
+            <span class="mt-desc">{{ t.description or t.name }}</span>
+            <span class="mt-meta">
+              <span class="mt-badge prio-{{ (t.priority or 'Medium')|lower }}">{{ t.priority or 'Medium' }}</span>
+              <span class="mt-date">Due {{ t.date }}</span>
+            </span>
+          </span>
+        </label>
+      </li>
+      {% endfor %}
+    </ul>
+  </section>
+  {% endif %}
+
+  <section class="mt-section">
+    <h3 class="mt-section-title">To do</h3>
+    {% if open_tasks %}
+    <ul class="mt-list" id="mtOpen">
+      {% for t in open_tasks %}
+      <li class="mt-item" data-name="{{ t.name }}">
+        <label class="mt-check-wrap">
+          <input type="checkbox" class="mt-complete" data-name="{{ t.name }}">
+          <span class="mt-body">
+            <span class="mt-desc">{{ t.description or t.name }}</span>
+            <span class="mt-meta">
+              <span class="mt-badge prio-{{ (t.priority or 'Medium')|lower }}">{{ t.priority or 'Medium' }}</span>
+            </span>
+          </span>
+        </label>
+      </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <p class="mt-empty" id="mtEmptyOpen">No open tasks for this day.</p>
+    {% endif %}
+  </section>
+
+  <section class="mt-section">
+    <h3 class="mt-section-title">Completed</h3>
+    <ul class="mt-list mt-list-done" id="mtDone">
+      {% for t in done_tasks %}
+      <li class="mt-item is-done" data-name="{{ t.name }}">
+        <label class="mt-check-wrap">
+          <input type="checkbox" class="mt-reopen" data-name="{{ t.name }}" checked>
+          <span class="mt-body">
+            <span class="mt-desc">{{ t.description or t.name }}</span>
+            <span class="mt-meta">
+              <span class="mt-badge prio-{{ (t.priority or 'Medium')|lower }}">{{ t.priority or 'Medium' }}</span>
+            </span>
+          </span>
+        </label>
+      </li>
+      {% endfor %}
+    </ul>
+    {% if not done_tasks %}
+    <p class="mt-empty" id="mtEmptyDone">Nothing completed yet.</p>
+    {% endif %}
+  </section>
+
+  <p id="mtMsg" class="mt-msg" hidden></p>
+</div>
+{% endif %}

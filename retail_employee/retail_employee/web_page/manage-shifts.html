@@ -1,0 +1,373 @@
+{% if frappe.session.user == 'Guest' %}
+  <div class="mgr-gate">
+    <h2>My Shifts</h2>
+    <p>Sign in to view your schedule.</p>
+    <p><a class="mgr-btn primary" href="/login?redirect-to=/manage-shifts">Log in</a></p>
+  </div>
+{% else %}
+{% set _mgr_roles = frappe.get_all('Has Role',
+    filters={
+        'parent': frappe.session.user,
+        'parenttype': 'User',
+        'role': ['in', ['Sales Store Manager', 'Store Sales Manager', 'System Manager']]
+    },
+    fields=['role'],
+    limit_page_length=1) %}
+{% set is_manager = True if (_mgr_roles or frappe.session.user == 'Administrator') else False %}
+{% set me_emp_rows = frappe.get_all('Employee', filters={'user_id': frappe.session.user}, fields=['name', 'employee'], limit_page_length=1) %}
+{% set me_hr_employee = me_emp_rows[0].name if me_emp_rows else None %}
+{% set me_info = frappe.get_all('CRAFTED Employee Info', filters={'employee_email': frappe.session.user}, fields=['name', 'employee', 'prefered_name'], limit_page_length=1) %}
+{% set me_employee = me_info[0].name if me_info else (me_emp_rows[0].employee if me_emp_rows else None) %}
+{% set me_prefered = me_info[0].prefered_name if me_info else None %}
+{% set today = frappe.utils.get_datetime() %}
+{% set today_weekday = today.weekday() %}
+{% set _v = frappe.utils.cint(frappe.form_dict.v or 2) %}
+{% set weeks_view = _v if _v in [1, 2, 4] else 4 %}
+{% set total_of_days_to_show = weeks_view * 7 %}
+{% set page = frappe.utils.cint(frappe.form_dict.w or 0) %}
+{% set base_monday = frappe.utils.add_to_date(today, days=-today_weekday) %}
+{% set current_monday = frappe.utils.add_to_date(base_monday, days=page * total_of_days_to_show) %}
+{% set view_start = frappe.utils.get_datetime(frappe.utils.getdate(current_monday)) %}
+{% set last_day_to_Show = frappe.utils.add_to_date(view_start, days=total_of_days_to_show) %}
+{% set view_end_label = frappe.utils.add_to_date(view_start, days=total_of_days_to_show - 1) %}
+{% set month_names = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"] %}
+{% set days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"] %}
+
+{% if is_manager %}
+{% set Employee_Schedule = frappe.get_all('CRAFTED Store Schedule',
+    filters={
+        'time_in': ['between', [view_start, last_day_to_Show]],
+        'prefered_name': ['not like', 'Test%']
+    },
+    fields=["name", "employee", "outlet_name", "time_in", "time_out", "role", "assigned", "color", "calendar_text", "employee_email", "outlet_color", "prefered_name", "published"],
+    order_by='time_in, prefered_name') %}
+{% else %}
+{% if me_employee %}
+{% set _mine = frappe.get_all('CRAFTED Store Schedule',
+    filters={
+        'time_in': ['between', [view_start, last_day_to_Show]],
+        'prefered_name': ['not like', 'Test%'],
+        'employee': me_employee,
+        'published': 1
+    },
+    fields=["name", "employee", "outlet_name", "time_in", "time_out", "role", "assigned", "color", "calendar_text", "employee_email", "outlet_color", "prefered_name", "published"],
+    order_by='time_in, prefered_name') %}
+{% else %}
+{% set _mine = [] %}
+{% endif %}
+{% set _open = frappe.get_all('CRAFTED Store Schedule',
+    filters={
+        'time_in': ['between', [view_start, last_day_to_Show]],
+        'prefered_name': ['not like', 'Test%'],
+        'employee': ['is', 'not set']
+    },
+    fields=["name", "employee", "outlet_name", "time_in", "time_out", "role", "assigned", "color", "calendar_text", "employee_email", "outlet_color", "prefered_name", "published"],
+    order_by='time_in, prefered_name') %}
+{% set Employee_Schedule = _mine + _open %}
+{% endif %}
+
+{% if is_manager %}
+{% set Employee_Leave = frappe.get_all('Leave Application',
+    filters={
+        'from_date': ['<=', frappe.utils.getdate(last_day_to_Show)],
+        'to_date': ['>=', frappe.utils.getdate(view_start)],
+        'employee_name': ['not like', 'Test%']
+    },
+    fields=["name","employee","employee_name","leave_type","from_date","to_date","total_leave_days","description","status"]) %}
+{% elif me_hr_employee %}
+{% set Employee_Leave = frappe.get_all('Leave Application',
+    filters={
+        'from_date': ['<=', frappe.utils.getdate(last_day_to_Show)],
+        'to_date': ['>=', frappe.utils.getdate(view_start)],
+        'employee': me_hr_employee
+    },
+    fields=["name","employee","employee_name","leave_type","from_date","to_date","total_leave_days","description","status"]) %}
+{% else %}
+{% set Employee_Leave = [] %}
+{% endif %}
+
+{% if is_manager %}
+{% set Active_Employees = frappe.get_all('CRAFTED Employee Info',
+    filters={'employee_status': 'Active', 'prefered_name': ['not like', 'Test%']},
+    fields=['name', 'employee', 'prefered_name', 'employee_email'],
+    order_by='prefered_name') %}
+{% elif me_employee %}
+{% set Active_Employees = frappe.get_all('CRAFTED Employee Info',
+    filters={'name': me_employee},
+    fields=['name', 'employee', 'prefered_name', 'employee_email'],
+    limit_page_length=1) %}
+{% else %}
+{% set Active_Employees = [] %}
+{% endif %}
+
+{% set Outlets = frappe.get_all('Outlets', fields=['name', 'outlet_name', 'outlet_color'], order_by='name') %}
+{% if frappe.db.exists('DocType', 'Outlet Hours and Hard Target Sales') %}
+{% set Outlet_Hours = frappe.get_all('Outlet Hours and Hard Target Sales', fields=['parent', 'dayoftheweek', 'open_or_close', 'open_time', 'close_time'], limit_page_length=200) %}
+{% else %}
+{% set Outlet_Hours = [] %}
+{% endif %}
+{% set Store_Roles = frappe.get_all('CRAFTED Store Roles', fields=['name'], order_by='name') %}
+
+{% if frappe.db.exists('DocType', 'Payroll Period') %}
+{% set Payroll_Periods = frappe.get_all('Payroll Period',
+    filters={
+        'start_date': ['<=', frappe.utils.getdate(last_day_to_Show)],
+        'end_date': ['>=', frappe.utils.getdate(view_start)]
+    },
+    fields=['name', 'start_date', 'end_date'],
+    order_by='start_date',
+    limit_page_length=50) %}
+{% else %}
+{% set Payroll_Periods = [] %}
+{% endif %}
+{% set payroll_starts = {} %}
+{% set payroll_ends = {} %}
+{% for pp in Payroll_Periods %}
+  {% if pp.start_date %}{% set _ = payroll_starts.update({pp.start_date.strftime('%Y%m%d'): pp.name}) %}{% endif %}
+  {% if pp.end_date %}{% set _ = payroll_ends.update({pp.end_date.strftime('%Y%m%d'): pp.name}) %}{% endif %}
+{% endfor %}
+
+{% set unique_employees_dict = {} %}
+{% set unique_outlet_name_dict = {} %}
+
+<div class="mgr-page" data-mgr-mode="{% if is_manager %}manager{% else %}associate{% endif %}" data-me-employee="{{ me_employee or '' }}">
+<div class="mgr-toolbar">
+  <h2>{% if is_manager %}Manage Shifts{% else %}My Shifts{% endif %}</h2>
+  <div class="mgr-nav">
+    <a class="mgr-btn secondary" href="/manage-shifts?v={{ weeks_view }}&w={{ page - 1 }}" title="Previous period">‹ Prev</a>
+    {% if page != 0 %}
+    <a class="mgr-btn secondary" href="/manage-shifts?v={{ weeks_view }}">Today</a>
+    {% endif %}
+    <span class="mgr-nav-range">{{ month_names[view_start.month - 1] }} {{ view_start.strftime('%d') }} – {{ month_names[view_end_label.month - 1] }} {{ view_end_label.strftime('%d') }}, {{ view_end_label.year }}</span>
+    <a class="mgr-btn secondary" href="/manage-shifts?v={{ weeks_view }}&w={{ page + 1 }}" title="Next period">Next ›</a>
+    <label class="mgr-view-label">View
+      <select id="mgrViewWeeks" class="mgr-view-select" onchange="window.location.href='/manage-shifts?v='+this.value{% if page %}&w={{ page }}{% endif %}">
+        <option value="1" {% if weeks_view == 1 %}selected{% endif %}>1 week</option>
+        <option value="2" {% if weeks_view == 2 %}selected{% endif %}>2 weeks</option>
+        <option value="4" {% if weeks_view == 4 %}selected{% endif %}>4 weeks</option>
+      </select>
+    </label>
+  </div>
+  <div class="mgr-toolbar-actions">
+    <button type="button" class="mgr-btn secondary" id="btnExportCalendar">Export to Calendar</button>
+    {% if is_manager %}
+    <a class="mgr-btn secondary" href="/app/crafted-store-schedule/view/calendar/CRAFTED%20Store%20Schedule">Desk Calendar</a>
+    <button type="button" class="mgr-btn primary" id="btnNewShift">+ New Shift</button>
+    {% endif %}
+  </div>
+</div>
+<div class="mgr-layout">
+
+
+  <div class="mgr-calendar-wrap">
+<div id="calendarDays" class="calendar-days">
+{% for i in range(0, 7) %}
+  <div class="title">{{ days[i] }}</div>
+{% endfor %}
+
+{% for day_offset in range(total_of_days_to_show) %}
+  {% set current_date = frappe.utils.add_to_date(current_monday, days=day_offset) %}
+  {% set dkey = current_date.strftime('%Y%m%d') %}
+  {% set pp_classes = (' payroll-start' if dkey in payroll_starts else '') + (' payroll-end' if dkey in payroll_ends else '') %}
+  {% if today.strftime('%Y%m%d') > dkey %}
+    <div class="past-day{{ pp_classes }}" data-date="{{ current_date.strftime('%Y-%m-%d') }}" {% if dkey in payroll_starts %}title="Payroll starts"{% elif dkey in payroll_ends %}title="Payroll ends"{% endif %}>
+  {% elif today.strftime('%Y%m%d') == dkey %}
+    <div class="today{{ pp_classes }}" data-date="{{ current_date.strftime('%Y-%m-%d') }}" {% if dkey in payroll_starts %}title="Payroll starts"{% elif dkey in payroll_ends %}title="Payroll ends"{% endif %}>
+  {% else %}
+    <div class="day{{ pp_classes }}" data-date="{{ current_date.strftime('%Y-%m-%d') }}" {% if dkey in payroll_starts %}title="Payroll starts"{% elif dkey in payroll_ends %}title="Payroll ends"{% endif %}>
+  {% endif %}
+    <div class="mgr-day-head">{{ month_names[current_date.month - 1] }} {{ current_date.strftime('%d') }}{% if today.strftime('%Y%m%d') == dkey %} <span class="mgr-today-tag">Today</span>{% endif %}{% if dkey in payroll_starts %} <span class="mgr-pp-tag start">Payroll start</span>{% endif %}{% if dkey in payroll_ends %} <span class="mgr-pp-tag end">Payroll end</span>{% endif %}</div>
+    <div class="mgr-outlet-row" style="grid-template-columns: repeat({{ (Outlets|length) or 1 }}, minmax(0, 1fr));">
+    {% for o in Outlets %}
+      {% set outlet = o.name %}
+      <div class="mgr-outlet-col" data-outlet="{{ outlet }}" data-date="{{ current_date.strftime('%Y-%m-%d') }}">
+        <div class="mgr-outlet-col-title">{{ outlet }}</div>
+        <div class="mgr-outlet-hours-label">—</div>
+        <div class="mgr-timeline">
+        {% for schedule in Employee_Schedule %}
+          {% if schedule.time_in and schedule.time_in.strftime('%Y%m%d') == current_date.strftime('%Y%m%d') and schedule.outlet_name == outlet and (is_manager or (not schedule.employee) or (me_employee and schedule.employee == me_employee and schedule.published)) %}
+            <div class="employee-other mgr-shift{% if not schedule.published %} mgr-shift-unpublished{% endif %}{% if me_employee and schedule.employee == me_employee %} mgr-shift-mine{% endif %}"
+                 data-name="{{ schedule.name }}"
+                 data-preferred-name="{{ schedule.prefered_name or '' }}" data-open="{% if schedule.employee %}0{% else %}1{% endif %}"
+                 data-employee="{{ schedule.employee or '' }}"
+                 data-employee-email="{{ schedule.employee_email or '' }}"
+                 data-location="{{ schedule.outlet_name or '' }}"
+                 data-role="{{ schedule.role or '' }}"
+                 data-time-in="{{ schedule.time_in.strftime('%Y-%m-%dT%H:%M') }}"
+                 data-time-out="{{ schedule.time_out.strftime('%Y-%m-%dT%H:%M') if schedule.time_out else '' }}"
+                 data-published="{{ 1 if schedule.published else 0 }}"
+                 data-color="{{ schedule.color or schedule.outlet_color or '#9fb072' }}"
+                 data-calendar-text="{{ schedule.calendar_text or '' }}"
+                 style="{% if schedule.published %}background-color:{{ schedule.color or schedule.outlet_color or '#eee' }};{% endif %} cursor:pointer;">
+              {% set time_line = schedule.time_in.strftime('%H:%M') %}
+              {% set dur_line = '' %}
+              {% if schedule.time_out %}
+                {% set time_line = time_line + ' - ' + schedule.time_out.strftime('%H:%M') %}
+                {% set _secs = (schedule.time_out - schedule.time_in).total_seconds() %}
+                {% set _hrs = _secs / 3600 %}
+                {% if _hrs == (_hrs|int) %}
+                  {% set dur_line = '(' + (_hrs|int)|string + ' hs)' %}
+                {% else %}
+                  {% set dur_line = '(' + ('%.1f'|format(_hrs)) + ' hs)' %}
+                {% endif %}
+              {% endif %}
+              {% if me_employee and schedule.employee == me_employee %}
+              <span class="mgr-my-name" title="Your shift">- {{ schedule.prefered_name or schedule.calendar_text }} -</span><br>
+              <span class="mgr-my-name">{{ time_line }}</span>{% if dur_line %}<br><span class="mgr-my-name mgr-dur">{{ dur_line }}</span>{% endif %}
+              {% elif not schedule.employee %}
+              <span class="mgr-open-shift">Open</span><br>
+              {{ time_line }}{% if dur_line %}<br><span class="mgr-dur">{{ dur_line }}</span>{% endif %}
+              {% else %}
+              {{ schedule.prefered_name or schedule.calendar_text }}<br>
+              {{ time_line }}{% if dur_line %}<br><span class="mgr-dur">{{ dur_line }}</span>{% endif %}
+              {% endif %}
+              {% if not schedule.published %}<br><em>unpublished</em>{% endif %}
+            </div>
+          {% endif %}
+        {% endfor %}
+        </div>
+        {% if is_manager %}<button type="button" class="mgr-day-add" data-date="{{ current_date.strftime('%Y-%m-%d') }}" data-outlet="{{ outlet }}" title="Add shift at {{ outlet }}">+</button>{% endif %}
+      </div>
+    {% endfor %}
+    </div>
+    <div class="mgr-timeoff">
+    {% for time_off in Employee_Leave %}
+      {% if time_off.from_date.strftime('%Y%m%d') <= current_date.strftime('%Y%m%d') and time_off.to_date.strftime('%Y%m%d') >= current_date.strftime('%Y%m%d') %}
+        {% if time_off.status == "Open" %}
+          <div class="Requested-time-off mgr-timeoff-bar">
+            <span class="mgr-timeoff-text">Time off requested · {{ time_off.employee_name }}{% if time_off.leave_type %} · {{ time_off.leave_type }}{% endif %}</span>
+            {% if is_manager %}<a class="mgr-btn mgr-btn-sm primary mgr-review-leave" href="/app/leave-application/{{ time_off.name }}" target="_blank" rel="noopener">Review</a>{% endif %}
+          </div>
+        {% endif %}
+        {% if time_off.status == "Approved" %}
+          <div class="Approved-time-off mgr-timeoff-bar">
+            <span class="mgr-timeoff-text">Time off approved · {{ time_off.employee_name }}{% if time_off.leave_type %} · {{ time_off.leave_type }}{% endif %}</span>
+          </div>
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+    </div>
+  </div>
+{% endfor %}
+</div>
+  </div>
+</div>
+
+  <aside class="mgr-filters">
+    {% if is_manager %}
+    <div class="mgr-filter-block">
+      <div class="mgr-filter-title">Employees</div>
+      <div class="mgr-filter-list">
+      <label class="All-label">
+        <input type="checkbox" id="masterEmployeeCheckbox" checked/>
+        All Employees
+      </label>
+      <label>
+        <input type="checkbox" id="filterOpenShifts" class="filterOpen" checked>
+        Open (unassigned)
+      </label>
+{% for emp in Active_Employees %}
+  {% set employee_name = emp.prefered_name %}
+  {% if employee_name and employee_name not in unique_employees_dict %}
+    {% set _dummy = unique_employees_dict.update({employee_name: true}) %}
+    <label>
+      <input type="checkbox" class="filterEmployee" value="{{ employee_name }}" checked>{{ employee_name }}
+    </label>
+  {% endif %}
+{% endfor %}
+{% for schedule in Employee_Schedule %}
+  {% set employee_name = schedule.prefered_name %}
+  {% if employee_name and employee_name not in unique_employees_dict %}
+    {% set _dummy = unique_employees_dict.update({employee_name: true}) %}
+    <label>
+      <input type="checkbox" class="filterEmployee" value="{{ employee_name }}" checked>{{ employee_name }}
+    </label>
+  {% endif %}
+{% endfor %}
+      </div>
+    </div>
+    {% endif %}
+    <div class="mgr-filter-block">
+      <div class="mgr-filter-title">Outlets</div>
+      <div class="mgr-filter-list">
+      <label class="All-label">
+        <input type="checkbox" id="masterOutletCheckbox">
+        All Outlets
+      </label>
+{% for schedule in Employee_Schedule %}
+  {% set outlet_name = schedule.outlet_name %}
+  {% if outlet_name and outlet_name not in unique_outlet_name_dict %}
+    {% set _dummy = unique_outlet_name_dict.update({outlet_name: true}) %}
+    <label><input type="checkbox" class="filterOutlet" value="{{ outlet_name }}" {% if outlet_name in ['CFM West', 'CFM South'] %}checked{% endif %}> {{ outlet_name }}</label>
+  {% endif %}
+{% endfor %}
+{% for o in Outlets %}
+  {% if o.name not in unique_outlet_name_dict %}
+    {% set _dummy = unique_outlet_name_dict.update({o.name: true}) %}
+    <label><input type="checkbox" class="filterOutlet" value="{{ o.name }}" {% if o.name in ['CFM West', 'CFM South'] %}checked{% endif %}> {{ o.name }}</label>
+  {% endif %}
+{% endfor %}
+      </div>
+    </div>
+  </aside>
+
+<script type="application/json" id="mgr-outlet-hours">[
+{% for h in Outlet_Hours %}
+  {"parent":"{{ h.parent }}","day":"{{ h.dayoftheweek }}","status":"{{ h.open_or_close or '' }}","open":"{{ h.open_time or '' }}","close":"{{ h.close_time or '' }}"}{% if not loop.last %},{% endif %}
+{% endfor %}
+]</script>
+<script type="application/json" id="mgr-employees">[
+{% for e in Active_Employees %}
+  {"name":"{{ e.name }}","prefered_name":"{{ (e.prefered_name or '') | replace('\\','\\\\') | replace('"','\\"') }}","employee_email":"{{ (e.employee_email or '') | replace('"','\\"') }}"}{% if not loop.last %},{% endif %}
+{% endfor %}
+]</script>
+<script type="application/json" id="mgr-outlets">[
+{% for o in Outlets %}
+  {"name":"{{ o.name }}"}{% if not loop.last %},{% endif %}
+{% endfor %}
+]</script>
+<script type="application/json" id="mgr-roles">[
+{% for r in Store_Roles %}
+  {"name":"{{ r.name }}"}{% if not loop.last %},{% endif %}
+{% endfor %}
+]</script>
+
+{% if is_manager %}
+<div id="mgrModal" class="mgr-modal" hidden>
+  <div class="mgr-modal-card">
+    <h3 id="mgrModalTitle">Edit Shift</h3>
+    <div class="mgr-modal-body">
+      <input type="hidden" id="f-name">
+      <label>Employee
+        <select id="f-employee"></select>
+      </label>
+      <label>Store
+        <select id="f-outlet"></select>
+      </label>
+      <label>Role
+        <select id="f-role"></select>
+      </label>
+      <label>Date
+        <input type="date" id="f-date">
+      </label>
+      <div class="mgr-time-row">
+        <label>Time in
+          <select id="f-time-in"></select>
+        </label>
+        <label>Time out
+          <select id="f-time-out"></select>
+        </label>
+      </div>
+      <label class="mgr-check"><input type="checkbox" id="f-published" checked> Published (visible on My Shifts)</label>
+    </div>
+    <p id="mgrMsg" class="mgr-msg"></p>
+    <div class="mgr-modal-actions">
+      <button type="button" class="mgr-btn danger" id="btnDelete" hidden>Delete</button>
+      <span style="flex:1"></span>
+      <button type="button" class="mgr-btn secondary" id="btnCancel">Cancel</button>
+      <button type="button" class="mgr-btn primary" id="btnSave">Save</button>
+    </div>
+  </div>
+</div>
+{% endif %}
+{% endif %}

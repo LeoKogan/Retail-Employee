@@ -1,0 +1,37 @@
+{
+  "exported_from": "crafted.localhost",
+  "exported_on": "2026-09-10",
+  "doctypes": [
+    "crafted_employee_commissions_details",
+    "crafted_employee_info",
+    "crafted_register_closure",
+    "crafted_register_closure_payments",
+    "crafted_rooster_schedule",
+    "crafted_sales_commissions",
+    "crafted_sales_targets",
+    "crafted_shift_assignment",
+    "crafted_shift_type",
+    "crafted_store_roles",
+    "crafted_store_schedule",
+    "outlet_duties",
+    "outlet_hours_and_hard_target_sales",
+    "outlets"
+  ],
+  "web_pages": [
+    "cashier-close",
+    "manage-shifts",
+    "my-shifts",
+    "my-tasks",
+    "sales-goals"
+  ],
+  "web_forms": [
+    "block-time-off",
+    "employee-clock-in-out"
+  ],
+  "www": [
+    "staff"
+  ],
+  "server_scripts": [
+    "employee_clock_inout_notification.py"
+  ]
+}
