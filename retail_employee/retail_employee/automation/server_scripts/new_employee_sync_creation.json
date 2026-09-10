@@ -1,0 +1,21 @@
+{
+  "name": "New Employee Sync Creation",
+  "docstatus": 0,
+  "parent": null,
+  "parentfield": null,
+  "parenttype": null,
+  "idx": 0,
+  "script_type": "DocType Event",
+  "reference_doctype": "Employee",
+  "event_frequency": "All",
+  "doctype_event": "After Insert",
+  "api_method": null,
+  "allow_guest": 0,
+  "disabled": 0,
+  "script": "frappe.get_doc(dict(\r\n    doctype = 'Employee Info',\r\n\temployee = doc.employee,\r\n    personal_commission_rate=\\\"0.1\\\",\r\n    crafted_commission_rate=\\\"0.1\\\",\r\n    prefered_name = doc.first_name\r\n)).insert()",
+  "cron_format": null,
+  "module": "CRAFTED",
+  "enable_rate_limit": 0,
+  "rate_limit_count": 5,
+  "rate_limit_seconds": 86400
+}

@@ -1,0 +1,21 @@
+{
+  "name": "Update Comissionable Amount",
+  "docstatus": 0,
+  "parent": null,
+  "parentfield": null,
+  "parenttype": null,
+  "idx": 0,
+  "script_type": "DocType Event",
+  "reference_doctype": "Sales Targets",
+  "event_frequency": "All",
+  "doctype_event": "Before Save",
+  "api_method": null,
+  "allow_guest": 0,
+  "disabled": 0,
+  "script": "# set property\r\nif doc.actual_sales is None:\r\n    doc.actual_sales=  0.00\r\nif doc.actual_sales > doc.sales_target:\r\n\tdoc.commissionable_amount =  doc.actual_sales - doc.sales_target\r\nelse:\r\n    doc.commissionable_amount =  0.00",
+  "cron_format": null,
+  "module": "CRAFTED",
+  "enable_rate_limit": 0,
+  "rate_limit_count": 5,
+  "rate_limit_seconds": 86400
+}

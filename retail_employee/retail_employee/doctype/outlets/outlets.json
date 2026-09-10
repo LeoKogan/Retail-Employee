@@ -9,7 +9,7 @@
  "autoname": "field:outlet_name",
  "title_field": "outlet_name",
  "allow_rename": 1,
- "module": "CRAFTED",
+ "module": "Retail Employee",
  "is_submittable": 0,
  "istable": 0,
  "issingle": 0,

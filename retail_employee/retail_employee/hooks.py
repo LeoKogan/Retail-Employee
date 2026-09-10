@@ -5,7 +5,6 @@ app_description = "Staff / employee portal for Crafted retail"
 app_email = "it@nardo.ca"
 app_license = "mit"
 
-# After install, fixtures sync DocTypes / web forms / pages
 fixtures = [
     {
         "dt": "DocType",
@@ -17,17 +16,17 @@ fixtures = [
                     "Outlets",
                     "Outlet Hours and Hard Target Sales",
                     "Outlet Duties",
-                    "CRAFTED Store Roles",
-                    "CRAFTED Employee Info",
-                    "CRAFTED Store Schedule",
-                    "CRAFTED Sales Targets",
-                    "CRAFTED Sales Commissions",
-                    "CRAFTED Employee Commissions Details",
-                    "CRAFTED Register Closure",
-                    "CRAFTED Register Closure Payments",
-                    "CRAFTED Shift Type",
-                    "CRAFTED Shift Assignment",
-                    "CRAFTED Rooster Schedule",
+                    "Store Roles",
+                    "Employee Info",
+                    "Store Schedule",
+                    "Sales Targets",
+                    "Sales Commissions",
+                    "Employee Commissions Details",
+                    "Register Closure",
+                    "Register Closure Payments",
+                    "Store Shift Type",
+                    "Store Shift Assignment",
+                    "Rooster Schedule",
                 ],
             ]
         ],
@@ -50,9 +49,7 @@ fixtures = [
     },
     {
         "dt": "Web Form",
-        "filters": [
-            ["name", "in", ["block-time-off", "employee-clock-in-out"]]
-        ],
+        "filters": [["name", "in", ["block-time-off", "employee-clock-in-out"]]],
     },
 ]
 
@@ -60,10 +57,18 @@ website_route_rules = [
     {"from_route": "/staff", "to_route": "staff"},
 ]
 
-# Prefer staff home for store roles (sites may also set role_home_page in another app)
-# Documented here; enable on site if not already handled by consignor app.
-# role_home_page = [
-#     {"role": "Sales Associate", "home_page": "/staff"},
-#     {"role": "Store Manager", "home_page": "/staff"},
-#     {"role": "Consignor Manager", "home_page": "/staff"},
-# ]
+role_home_page = {
+    "Sales Associate": "staff",
+    "Store Manager": "staff",
+    "Consignor Manager": "staff",
+}
+
+doc_events = {
+    "Employee Checkin": {
+        "after_insert": "retail_employee.events.employee_checkin.after_insert",
+    },
+}
+
+doctype_js = {
+    "Store Schedule": "public/js/store_schedule.js",
+}

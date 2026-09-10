@@ -1,18 +1,22 @@
 # Retail Employee
 
-Frappe app for Crafted staff / employee portal (website).
+Frappe app for Crafted **staff / employee portal**.
 
-Includes:
-- `/staff` landing
-- Web Pages: Manage Shifts, My Tasks, Cashier Close, Sales Goals
-- Web Forms: Block Time Off, Employee Clock In/Out
-- CRAFTED DocTypes used by those pages (Outlets, Store Schedule, Employee Info, etc.)
-- Server Script source for clock-in/out SMS (deploy on site as Server Script)
+## Includes
+- `/staff` landing (this app only — not in Consignor)
+- **Web Pages:** manage-shifts, my-shifts, my-tasks, cashier-close, sales-goals
+- **Web Forms:** block-time-off, employee-clock-in-out
+- **DocTypes** (no `CRAFTED ` prefix): Outlets, Store Schedule, Employee Info, Store Roles, Sales Targets/Commissions, Register Closure, Rooster Schedule, Store Shift Type/Assignment, …
+- **Automation sources:** Server Scripts, Client Scripts, Notifications from erp.craftedgoods.ca (`retail_employee/automation/`)
+- **Live hooks:** clock-in/out SMS on `Employee Checkin` after_insert; Store Schedule Desk JS
 
-Install on a bench:
-```
-bench get-app /path/to/Retail-Employee
-# or: bench get-app https://github.com/LeoKogan/Retail-Employee.git
+## DocType rename
+Production used `CRAFTED …` names. In this app the prefix is removed.  
+HRMS already owns `Shift Type` / `Shift Assignment`, so those become **Store Shift Type** / **Store Shift Assignment**.
+
+## Install
+```bash
+bench get-app https://github.com/LeoKogan/Retail-Employee.git
 bench --site <site> install-app retail_employee
 bench --site <site> migrate
 ```

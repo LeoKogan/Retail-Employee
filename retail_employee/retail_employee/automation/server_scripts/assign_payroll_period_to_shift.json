@@ -1,0 +1,21 @@
+{
+  "name": "Assign Payroll Period to Shift",
+  "docstatus": 0,
+  "parent": null,
+  "parentfield": null,
+  "parenttype": null,
+  "idx": 0,
+  "script_type": "DocType Event",
+  "reference_doctype": "Store Schedule",
+  "event_frequency": "All",
+  "doctype_event": "Before Save",
+  "api_method": null,
+  "allow_guest": 0,
+  "disabled": 0,
+  "script": "# Set payroll_period from Time Out date (single source of truth for period on save)\ntry:\n    if not doc.time_out:\n        frappe.throw(\\\"Time Out is required to assign a Payroll Period\\\")\n\n    shift_date = frappe.utils.getdate(doc.time_out)\n    periods = frappe.db.get_all(\n        \\\"Payroll Period\\\",\n        filters={\\\"start_date\\\": [\\\"<=\\\", shift_date], \\\"end_date\\\": [\\\">=\\\", shift_date]},\n        fields=[\\\"name\\\"],\n        pluck=\\\"name\\\",\n    )\n    if not periods:\n        frappe.throw(\\\"No Payroll Period found for date {0}\\\".format(shift_date))\n    if len(periods) > 1:\n        frappe.logger(\\\"crafted_store_schedule\\\").warning(\n            \\\"Multiple Payroll Periods for %s: %s \u2014 using %s\\\" % (shift_date, periods, periods[0])\n        )\n    doc.payroll_period = periods[0]\nexcept Exception:\n    frappe.log_error(\n        title=\\\"Assign Payroll Period to Shift\\\",\n        message=frappe.get_traceback()\n        + \\\"\nDoc: \\\"\n        + str(getattr(doc, \\\"name\\\", None))\n        + \\\"\ntime_out=\\\"\n        + str(getattr(doc, \\\"time_out\\\", None)),\n    )\n    raise\n",
+  "cron_format": null,
+  "module": "CRAFTED",
+  "enable_rate_limit": 0,
+  "rate_limit_count": 5,
+  "rate_limit_seconds": 86400
+}

@@ -1,0 +1,21 @@
+{
+  "name": "Calculate Employee Commissions Details",
+  "docstatus": 0,
+  "parent": null,
+  "parentfield": null,
+  "parenttype": null,
+  "idx": 0,
+  "script_type": "DocType Event",
+  "reference_doctype": "Sales Commissions",
+  "event_frequency": "All",
+  "doctype_event": "Before Save",
+  "api_method": null,
+  "allow_guest": 0,
+  "disabled": 0,
+  "script": "try:\n    # Initialize total payable amounts for personal and team commissions\n    total_personal_commission_payable = 0\n    total_team_commission_payable = 0\n\n    # Calculate the total hours worked by summing up the hours of all employees\n    total_hours_worked = sum((employee.total_hours or 0) for employee in (doc.employee_hours_commissions or []))\n\n    # Calculate commission earned per hour (guard empty / zero hours)\n    if total_hours_worked:\n        doc.commission_per_hour = (doc.total_commissions or 0) / total_hours_worked\n    else:\n        doc.commission_per_hour = 0\n\n    # Loop through each employee's record to calculate individual commissions\n    for employee in (doc.employee_hours_commissions or []):\n        # Personal commission from personal sales and rate\n        employee.total_personal_commission = (employee.total_personal_sales or 0) * (employee.personal_commission_rate or 0) / 100\n        total_personal_commission_payable = total_personal_commission_payable + employee.total_personal_commission\n\n        # Store/team share from hour-weighted pool and store rate\n        employee.total_store_commission = doc.commission_per_hour * (employee.total_hours or 0) * (employee.store_commission_rate or 0) / 100\n        total_team_commission_payable = total_team_commission_payable + employee.total_store_commission\n\n    # Parent totals (fieldnames must match Sales Commissions)\n    doc.total_payable_personal_comm = total_personal_commission_payable\n    doc.total_payable_team_comm = total_team_commission_payable\n    doc.total_worked_hours = round(total_hours_worked, 2)\n\n    # Estimate total payable cost including hourly wage (assuming $18 per hour)\n    doc.estimated_total_payable_cost = total_hours_worked * 18 + total_team_commission_payable + total_personal_commission_payable\nexcept Exception:\n    frappe.log_error(\n        title=\\\"Calculate Employee Commissions Details\\\",\n        message=frappe.get_traceback()\n        + \\\"\n\nDoc: \\\"\n        + str(getattr(doc, \\\"name\\\", None))\n        + \\\"\ntotal_commissions=\\\"\n        + str(getattr(doc, \\\"total_commissions\\\", None))\n        + \\\"\nrows=\\\"\n        + str(len(doc.employee_hours_commissions or [])),\n    )\n    raise\n",
+  "cron_format": null,
+  "module": "CRAFTED",
+  "enable_rate_limit": 0,
+  "rate_limit_count": 5,
+  "rate_limit_seconds": 86400
+}

@@ -1,0 +1,13 @@
+{
+  "name": "Sort Time In Timesheet Detail Table",
+  "docstatus": 0,
+  "parent": null,
+  "parentfield": null,
+  "parenttype": null,
+  "idx": 0,
+  "dt": "Timesheets",
+  "view": "Form",
+  "enabled": 1,
+  "script": "frappe.ui.form.on('Timesheets', {\n\trefresh(frm) {\n        // 1. Sort the child table array\n        frm.doc.child_table_name.sort((a, b) => {\n            let dateA = new Date(a.from_time);\n            let dateB = new Date(b.from_time);\n            return dateA - dateB;\n        });\n\n        // 2. Reset the row indices (idx) so the numbering is correct\n        frm.doc.child_table_name.forEach((row, index) => {\n            row.idx = index + 1;\n        });\n\n        // 3. Refresh the grid on the UI\n        frm.refresh_field('Timesheet Detail');\n    }\n});",
+  "module": null
+}

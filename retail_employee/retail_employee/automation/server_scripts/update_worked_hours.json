@@ -1,0 +1,21 @@
+{
+  "name": "Update Worked Hours",
+  "docstatus": 0,
+  "parent": null,
+  "parentfield": null,
+  "parenttype": null,
+  "idx": 0,
+  "script_type": "DocType Event",
+  "reference_doctype": "Timesheets",
+  "event_frequency": "All",
+  "doctype_event": "Before Save",
+  "api_method": null,
+  "allow_guest": 0,
+  "disabled": 0,
+  "script": "total_ts_hrs=0\ntotal_expected_hrs= 0\ntotal_extra_hrs= 0\n\nfor time_log in doc.time_logs:\n    time_log.hours = round(frappe.utils.time_diff_in_hours(time_log.to_time,time_log.from_time),2)\n    total_ts_hrs = total_ts_hrs + time_log.hours\n    if bool(time_log.expected_hours):\n        total_expected_hrs= total_expected_hrs + time_log.expected_hours\n    if bool(time_log.extra_hrs):\n        total_extra_hrs = total_extra_hrs + time_log.extra_hrs\n\ndoc.total_ts_hrs = round(total_ts_hrs,2)\ndoc.total_expected_hrs =round(total_expected_hrs,2)\ndoc.total_extra_hrs =round(total_extra_hrs,2)",
+  "cron_format": null,
+  "module": "CRAFTED",
+  "enable_rate_limit": 0,
+  "rate_limit_count": 5,
+  "rate_limit_seconds": 86400
+}

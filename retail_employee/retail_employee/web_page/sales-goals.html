@@ -29,18 +29,18 @@
   {% else %}
   {% set Payroll_Period = periods[0] %}
 
-  {% set info_rows = frappe.get_all('CRAFTED Employee Info', filters={'employee': Empleado}, fields=['employee_email', 'crafted_commission_rate', 'personal_commission_rate'], limit=1) %}
+  {% set info_rows = frappe.get_all('Employee Info', filters={'employee': Empleado}, fields=['employee_email', 'crafted_commission_rate', 'personal_commission_rate'], limit=1) %}
   {% set store_commission_rate = (info_rows[0].crafted_commission_rate if info_rows else 0) or 0 %}
   {% set personal_commission_rate = (info_rows[0].personal_commission_rate if info_rows else 0) or 0 %}
 
-  {% set Sales_Targets = frappe.get_all('CRAFTED Sales Targets',
+  {% set Sales_Targets = frappe.get_all('Sales Targets',
       filters={'sales_target_date': ['between', [Payroll_Period.start_date, Payroll_Period.end_date]]},
       fields=['name', 'outlet_name', 'sales_target', 'actual_sales', 'sales_target_date'],
       order_by='outlet_name',
       limit_page_length=500
   ) %}
 
-  {% set commissions = frappe.get_all('CRAFTED Sales Commissions',
+  {% set commissions = frappe.get_all('Sales Commissions',
       filters={'payroll_period': Payroll_Period.name},
       fields=['name', 'total_commissions', 'total_worked_hours'],
       limit=1
@@ -52,7 +52,7 @@
   {% set total_personal_sales = 0 %}
   {% set total_personal_commission = 0 %}
   {% if Sales_Commissions %}
-    {% set details = frappe.get_all('CRAFTED Employee Commissions Details',
+    {% set details = frappe.get_all('Employee Commissions Details',
         filters={'parent': Sales_Commissions.name, 'employee': Empleado},
         fields=['total_hours', 'total_store_commission', 'total_personal_sales', 'total_personal_commission'],
         limit=1
@@ -190,7 +190,7 @@
 
     <h4>Average sales per hour — ranking</h4>
     {% if Sales_Commissions %}
-    {% set ranking = frappe.get_all('CRAFTED Employee Commissions Details',
+    {% set ranking = frappe.get_all('Employee Commissions Details',
         filters={'parent': Sales_Commissions.name},
         fields=['employee', 'employee_name', 'total_hours', 'total_personal_sales', 'average_sales_per_hour'],
         order_by='average_sales_per_hour desc',

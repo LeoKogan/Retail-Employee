@@ -16,7 +16,7 @@
 {% set is_manager = True if (_mgr_roles or frappe.session.user == 'Administrator') else False %}
 {% set me_emp_rows = frappe.get_all('Employee', filters={'user_id': frappe.session.user}, fields=['name', 'employee'], limit_page_length=1) %}
 {% set me_hr_employee = me_emp_rows[0].name if me_emp_rows else None %}
-{% set me_info = frappe.get_all('CRAFTED Employee Info', filters={'employee_email': frappe.session.user}, fields=['name', 'employee', 'prefered_name'], limit_page_length=1) %}
+{% set me_info = frappe.get_all('Employee Info', filters={'employee_email': frappe.session.user}, fields=['name', 'employee', 'prefered_name'], limit_page_length=1) %}
 {% set me_employee = me_info[0].name if me_info else (me_emp_rows[0].employee if me_emp_rows else None) %}
 {% set me_prefered = me_info[0].prefered_name if me_info else None %}
 {% set today = frappe.utils.get_datetime() %}
@@ -34,7 +34,7 @@
 {% set days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"] %}
 
 {% if is_manager %}
-{% set Employee_Schedule = frappe.get_all('CRAFTED Store Schedule',
+{% set Employee_Schedule = frappe.get_all('Store Schedule',
     filters={
         'time_in': ['between', [view_start, last_day_to_Show]],
         'prefered_name': ['not like', 'Test%']
@@ -43,7 +43,7 @@
     order_by='time_in, prefered_name') %}
 {% else %}
 {% if me_employee %}
-{% set _mine = frappe.get_all('CRAFTED Store Schedule',
+{% set _mine = frappe.get_all('Store Schedule',
     filters={
         'time_in': ['between', [view_start, last_day_to_Show]],
         'prefered_name': ['not like', 'Test%'],
@@ -55,7 +55,7 @@
 {% else %}
 {% set _mine = [] %}
 {% endif %}
-{% set _open = frappe.get_all('CRAFTED Store Schedule',
+{% set _open = frappe.get_all('Store Schedule',
     filters={
         'time_in': ['between', [view_start, last_day_to_Show]],
         'prefered_name': ['not like', 'Test%'],
@@ -87,12 +87,12 @@
 {% endif %}
 
 {% if is_manager %}
-{% set Active_Employees = frappe.get_all('CRAFTED Employee Info',
+{% set Active_Employees = frappe.get_all('Employee Info',
     filters={'employee_status': 'Active', 'prefered_name': ['not like', 'Test%']},
     fields=['name', 'employee', 'prefered_name', 'employee_email'],
     order_by='prefered_name') %}
 {% elif me_employee %}
-{% set Active_Employees = frappe.get_all('CRAFTED Employee Info',
+{% set Active_Employees = frappe.get_all('Employee Info',
     filters={'name': me_employee},
     fields=['name', 'employee', 'prefered_name', 'employee_email'],
     limit_page_length=1) %}
@@ -106,7 +106,7 @@
 {% else %}
 {% set Outlet_Hours = [] %}
 {% endif %}
-{% set Store_Roles = frappe.get_all('CRAFTED Store Roles', fields=['name'], order_by='name') %}
+{% set Store_Roles = frappe.get_all('Store Roles', fields=['name'], order_by='name') %}
 
 {% if frappe.db.exists('DocType', 'Payroll Period') %}
 {% set Payroll_Periods = frappe.get_all('Payroll Period',

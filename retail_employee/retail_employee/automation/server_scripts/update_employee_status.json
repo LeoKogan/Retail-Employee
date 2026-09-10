@@ -1,0 +1,21 @@
+{
+  "name": "Update Employee Status",
+  "docstatus": 0,
+  "parent": null,
+  "parentfield": null,
+  "parenttype": null,
+  "idx": 0,
+  "script_type": "DocType Event",
+  "reference_doctype": "Employee",
+  "event_frequency": "All",
+  "doctype_event": "After Save",
+  "api_method": null,
+  "allow_guest": 0,
+  "disabled": 0,
+  "script": "crafted_employee_info = frappe.db.get_value('Employee Info', {'employee': doc.employee}, 'name')\r\nif crafted_employee_info:\r\n    # Load the existing record using its name\r\n    crafted_info_doc = frappe.get_doc('Employee Info', crafted_employee_info)\r\n    \r\n    # Update the fields with the information from the Employee doc\r\n    crafted_info_doc.status = doc.status\r\n    \r\n    # Save the updated document\r\n    crafted_info_doc.save(ignore_permissions=True)",
+  "cron_format": null,
+  "module": "CRAFTED",
+  "enable_rate_limit": 0,
+  "rate_limit_count": 5,
+  "rate_limit_seconds": 86400
+}

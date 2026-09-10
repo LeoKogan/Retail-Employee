@@ -2781,7 +2781,7 @@
   "states": []
  },
  {
-  "name": "CRAFTED Store Roles",
+  "name": "Store Roles",
   "docstatus": 0,
   "restrict_to_domain": null,
   "read_only": 0,
@@ -2917,7 +2917,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Store Roles",
+    "parent": "Store Roles",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -2988,7 +2988,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Store Roles",
+    "parent": "Store Roles",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -3059,7 +3059,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Store Roles",
+    "parent": "Store Roles",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -3088,7 +3088,7 @@
     "print": 1,
     "email": 1,
     "impersonate": 0,
-    "parent": "CRAFTED Store Roles",
+    "parent": "Store Roles",
     "parentfield": "permissions",
     "parenttype": "DocType",
     "doctype": "DocPerm"
@@ -3115,7 +3115,7 @@
     "print": 1,
     "email": 0,
     "impersonate": 0,
-    "parent": "CRAFTED Store Roles",
+    "parent": "Store Roles",
     "parentfield": "permissions",
     "parenttype": "DocType",
     "doctype": "DocPerm"
@@ -3142,7 +3142,7 @@
     "print": 1,
     "email": 0,
     "impersonate": 0,
-    "parent": "CRAFTED Store Roles",
+    "parent": "Store Roles",
     "parentfield": "permissions",
     "parenttype": "DocType",
     "doctype": "DocPerm"
@@ -3169,7 +3169,7 @@
     "print": 1,
     "email": 0,
     "impersonate": 0,
-    "parent": "CRAFTED Store Roles",
+    "parent": "Store Roles",
     "parentfield": "permissions",
     "parenttype": "DocType",
     "doctype": "DocPerm"
@@ -3196,7 +3196,7 @@
     "print": 1,
     "email": 0,
     "impersonate": 0,
-    "parent": "CRAFTED Store Roles",
+    "parent": "Store Roles",
     "parentfield": "permissions",
     "parenttype": "DocType",
     "doctype": "DocPerm"
@@ -3207,7 +3207,7 @@
   "states": []
  },
  {
-  "name": "CRAFTED Employee Info",
+  "name": "Employee Info",
   "docstatus": 0,
   "restrict_to_domain": null,
   "read_only": 0,
@@ -3343,7 +3343,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Employee Info",
+    "parent": "Employee Info",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -3414,7 +3414,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Employee Info",
+    "parent": "Employee Info",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -3485,7 +3485,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Employee Info",
+    "parent": "Employee Info",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -3556,7 +3556,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Employee Info",
+    "parent": "Employee Info",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -3627,7 +3627,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Employee Info",
+    "parent": "Employee Info",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -3698,7 +3698,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Employee Info",
+    "parent": "Employee Info",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -3769,7 +3769,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Employee Info",
+    "parent": "Employee Info",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -3840,7 +3840,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Employee Info",
+    "parent": "Employee Info",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -3911,7 +3911,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Employee Info",
+    "parent": "Employee Info",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -3982,7 +3982,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Employee Info",
+    "parent": "Employee Info",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -4053,7 +4053,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Employee Info",
+    "parent": "Employee Info",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -4124,7 +4124,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Employee Info",
+    "parent": "Employee Info",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -4195,7 +4195,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Employee Info",
+    "parent": "Employee Info",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -4266,7 +4266,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Employee Info",
+    "parent": "Employee Info",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -4337,7 +4337,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Employee Info",
+    "parent": "Employee Info",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -4408,7 +4408,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Employee Info",
+    "parent": "Employee Info",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -4479,7 +4479,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Employee Info",
+    "parent": "Employee Info",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -4550,7 +4550,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Employee Info",
+    "parent": "Employee Info",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -4579,7 +4579,7 @@
     "print": 1,
     "email": 1,
     "impersonate": 0,
-    "parent": "CRAFTED Employee Info",
+    "parent": "Employee Info",
     "parentfield": "permissions",
     "parenttype": "DocType",
     "doctype": "DocPerm"
@@ -4606,7 +4606,7 @@
     "print": 1,
     "email": 1,
     "impersonate": 0,
-    "parent": "CRAFTED Employee Info",
+    "parent": "Employee Info",
     "parentfield": "permissions",
     "parenttype": "DocType",
     "doctype": "DocPerm"
@@ -4633,7 +4633,7 @@
     "print": 1,
     "email": 0,
     "impersonate": 0,
-    "parent": "CRAFTED Employee Info",
+    "parent": "Employee Info",
     "parentfield": "permissions",
     "parenttype": "DocType",
     "doctype": "DocPerm"
@@ -4660,7 +4660,7 @@
     "print": 1,
     "email": 0,
     "impersonate": 0,
-    "parent": "CRAFTED Employee Info",
+    "parent": "Employee Info",
     "parentfield": "permissions",
     "parenttype": "DocType",
     "doctype": "DocPerm"
@@ -4687,7 +4687,7 @@
     "print": 1,
     "email": 0,
     "impersonate": 0,
-    "parent": "CRAFTED Employee Info",
+    "parent": "Employee Info",
     "parentfield": "permissions",
     "parenttype": "DocType",
     "doctype": "DocPerm"
@@ -4714,7 +4714,7 @@
     "print": 1,
     "email": 0,
     "impersonate": 0,
-    "parent": "CRAFTED Employee Info",
+    "parent": "Employee Info",
     "parentfield": "permissions",
     "parenttype": "DocType",
     "doctype": "DocPerm"
@@ -4725,7 +4725,7 @@
   "states": []
  },
  {
-  "name": "CRAFTED Store Schedule",
+  "name": "Store Schedule",
   "docstatus": 0,
   "restrict_to_domain": null,
   "read_only": 0,
@@ -4861,7 +4861,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Store Schedule",
+    "parent": "Store Schedule",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -4932,7 +4932,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Store Schedule",
+    "parent": "Store Schedule",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -5003,7 +5003,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Store Schedule",
+    "parent": "Store Schedule",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -5074,7 +5074,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Store Schedule",
+    "parent": "Store Schedule",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -5095,7 +5095,7 @@
     "search_index": 0,
     "not_nullable": 0,
     "mask": 0,
-    "options": "CRAFTED Store Roles",
+    "options": "Store Roles",
     "sort_options": 0,
     "show_dashboard": 0,
     "link_filters": null,
@@ -5145,7 +5145,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Store Schedule",
+    "parent": "Store Schedule",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -5216,7 +5216,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Store Schedule",
+    "parent": "Store Schedule",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -5287,7 +5287,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Store Schedule",
+    "parent": "Store Schedule",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -5308,7 +5308,7 @@
     "search_index": 0,
     "not_nullable": 0,
     "mask": 0,
-    "options": "CRAFTED Employee Info",
+    "options": "Employee Info",
     "sort_options": 0,
     "show_dashboard": 0,
     "link_filters": null,
@@ -5358,7 +5358,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Store Schedule",
+    "parent": "Store Schedule",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -5429,7 +5429,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Store Schedule",
+    "parent": "Store Schedule",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -5500,7 +5500,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Store Schedule",
+    "parent": "Store Schedule",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -5571,7 +5571,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Store Schedule",
+    "parent": "Store Schedule",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -5642,7 +5642,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Store Schedule",
+    "parent": "Store Schedule",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -5713,7 +5713,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Store Schedule",
+    "parent": "Store Schedule",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -5784,7 +5784,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Store Schedule",
+    "parent": "Store Schedule",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -5855,7 +5855,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Store Schedule",
+    "parent": "Store Schedule",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -5926,7 +5926,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Store Schedule",
+    "parent": "Store Schedule",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -5997,7 +5997,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Store Schedule",
+    "parent": "Store Schedule",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -6068,7 +6068,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Store Schedule",
+    "parent": "Store Schedule",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -6139,7 +6139,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Store Schedule",
+    "parent": "Store Schedule",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -6210,7 +6210,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Store Schedule",
+    "parent": "Store Schedule",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -6281,7 +6281,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Store Schedule",
+    "parent": "Store Schedule",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -6352,7 +6352,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Store Schedule",
+    "parent": "Store Schedule",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -6423,7 +6423,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Store Schedule",
+    "parent": "Store Schedule",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -6494,7 +6494,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Store Schedule",
+    "parent": "Store Schedule",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -6523,7 +6523,7 @@
     "print": 1,
     "email": 1,
     "impersonate": 0,
-    "parent": "CRAFTED Store Schedule",
+    "parent": "Store Schedule",
     "parentfield": "permissions",
     "parenttype": "DocType",
     "doctype": "DocPerm"
@@ -6550,7 +6550,7 @@
     "print": 1,
     "email": 1,
     "impersonate": 0,
-    "parent": "CRAFTED Store Schedule",
+    "parent": "Store Schedule",
     "parentfield": "permissions",
     "parenttype": "DocType",
     "doctype": "DocPerm"
@@ -6577,7 +6577,7 @@
     "print": 1,
     "email": 1,
     "impersonate": 0,
-    "parent": "CRAFTED Store Schedule",
+    "parent": "Store Schedule",
     "parentfield": "permissions",
     "parenttype": "DocType",
     "doctype": "DocPerm"
@@ -6604,7 +6604,7 @@
     "print": 1,
     "email": 0,
     "impersonate": 0,
-    "parent": "CRAFTED Store Schedule",
+    "parent": "Store Schedule",
     "parentfield": "permissions",
     "parenttype": "DocType",
     "doctype": "DocPerm"
@@ -6631,7 +6631,7 @@
     "print": 1,
     "email": 0,
     "impersonate": 0,
-    "parent": "CRAFTED Store Schedule",
+    "parent": "Store Schedule",
     "parentfield": "permissions",
     "parenttype": "DocType",
     "doctype": "DocPerm"
@@ -6658,7 +6658,7 @@
     "print": 1,
     "email": 0,
     "impersonate": 0,
-    "parent": "CRAFTED Store Schedule",
+    "parent": "Store Schedule",
     "parentfield": "permissions",
     "parenttype": "DocType",
     "doctype": "DocPerm"
@@ -6669,7 +6669,7 @@
   "states": []
  },
  {
-  "name": "CRAFTED Sales Targets",
+  "name": "Sales Targets",
   "docstatus": 0,
   "restrict_to_domain": null,
   "read_only": 0,
@@ -6805,7 +6805,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Sales Targets",
+    "parent": "Sales Targets",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -6876,7 +6876,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Sales Targets",
+    "parent": "Sales Targets",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -6947,7 +6947,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Sales Targets",
+    "parent": "Sales Targets",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -7018,7 +7018,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Sales Targets",
+    "parent": "Sales Targets",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -7089,7 +7089,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Sales Targets",
+    "parent": "Sales Targets",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -7160,7 +7160,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Sales Targets",
+    "parent": "Sales Targets",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -7231,7 +7231,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Sales Targets",
+    "parent": "Sales Targets",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -7260,7 +7260,7 @@
     "print": 1,
     "email": 1,
     "impersonate": 0,
-    "parent": "CRAFTED Sales Targets",
+    "parent": "Sales Targets",
     "parentfield": "permissions",
     "parenttype": "DocType",
     "doctype": "DocPerm"
@@ -7271,7 +7271,7 @@
   "states": []
  },
  {
-  "name": "CRAFTED Sales Commissions",
+  "name": "Sales Commissions",
   "docstatus": 0,
   "restrict_to_domain": null,
   "read_only": 0,
@@ -7407,7 +7407,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Sales Commissions",
+    "parent": "Sales Commissions",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -7478,7 +7478,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Sales Commissions",
+    "parent": "Sales Commissions",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -7549,7 +7549,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Sales Commissions",
+    "parent": "Sales Commissions",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -7620,7 +7620,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Sales Commissions",
+    "parent": "Sales Commissions",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -7691,7 +7691,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Sales Commissions",
+    "parent": "Sales Commissions",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -7762,7 +7762,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Sales Commissions",
+    "parent": "Sales Commissions",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -7833,7 +7833,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Sales Commissions",
+    "parent": "Sales Commissions",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -7904,7 +7904,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Sales Commissions",
+    "parent": "Sales Commissions",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -7975,7 +7975,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Sales Commissions",
+    "parent": "Sales Commissions",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -8046,7 +8046,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Sales Commissions",
+    "parent": "Sales Commissions",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -8117,7 +8117,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Sales Commissions",
+    "parent": "Sales Commissions",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -8138,7 +8138,7 @@
     "search_index": 0,
     "not_nullable": 0,
     "mask": 0,
-    "options": "CRAFTED Employee Commissions Details",
+    "options": "Employee Commissions Details",
     "sort_options": 0,
     "show_dashboard": 0,
     "link_filters": null,
@@ -8188,7 +8188,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Sales Commissions",
+    "parent": "Sales Commissions",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -8259,7 +8259,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Sales Commissions",
+    "parent": "Sales Commissions",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -8330,7 +8330,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Sales Commissions",
+    "parent": "Sales Commissions",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -8401,7 +8401,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Sales Commissions",
+    "parent": "Sales Commissions",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -8472,7 +8472,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Sales Commissions",
+    "parent": "Sales Commissions",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -8543,7 +8543,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Sales Commissions",
+    "parent": "Sales Commissions",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -8572,7 +8572,7 @@
     "print": 1,
     "email": 1,
     "impersonate": 0,
-    "parent": "CRAFTED Sales Commissions",
+    "parent": "Sales Commissions",
     "parentfield": "permissions",
     "parenttype": "DocType",
     "doctype": "DocPerm"
@@ -8599,7 +8599,7 @@
     "print": 1,
     "email": 1,
     "impersonate": 0,
-    "parent": "CRAFTED Sales Commissions",
+    "parent": "Sales Commissions",
     "parentfield": "permissions",
     "parenttype": "DocType",
     "doctype": "DocPerm"
@@ -8610,7 +8610,7 @@
   "states": []
  },
  {
-  "name": "CRAFTED Employee Commissions Details",
+  "name": "Employee Commissions Details",
   "docstatus": 0,
   "restrict_to_domain": null,
   "read_only": 0,
@@ -8746,7 +8746,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Employee Commissions Details",
+    "parent": "Employee Commissions Details",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -8817,7 +8817,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Employee Commissions Details",
+    "parent": "Employee Commissions Details",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -8888,7 +8888,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Employee Commissions Details",
+    "parent": "Employee Commissions Details",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -8959,7 +8959,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Employee Commissions Details",
+    "parent": "Employee Commissions Details",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -8980,7 +8980,7 @@
     "search_index": 0,
     "not_nullable": 0,
     "mask": 0,
-    "options": "CRAFTED Employee Info",
+    "options": "Employee Info",
     "sort_options": 0,
     "show_dashboard": 0,
     "link_filters": null,
@@ -9030,7 +9030,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Employee Commissions Details",
+    "parent": "Employee Commissions Details",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -9101,7 +9101,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Employee Commissions Details",
+    "parent": "Employee Commissions Details",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -9172,7 +9172,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Employee Commissions Details",
+    "parent": "Employee Commissions Details",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -9243,7 +9243,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Employee Commissions Details",
+    "parent": "Employee Commissions Details",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -9314,7 +9314,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Employee Commissions Details",
+    "parent": "Employee Commissions Details",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -9385,7 +9385,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Employee Commissions Details",
+    "parent": "Employee Commissions Details",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -9456,7 +9456,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Employee Commissions Details",
+    "parent": "Employee Commissions Details",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -9527,7 +9527,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Employee Commissions Details",
+    "parent": "Employee Commissions Details",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -9598,7 +9598,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Employee Commissions Details",
+    "parent": "Employee Commissions Details",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -9669,7 +9669,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Employee Commissions Details",
+    "parent": "Employee Commissions Details",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -9740,7 +9740,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Employee Commissions Details",
+    "parent": "Employee Commissions Details",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -9811,7 +9811,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Employee Commissions Details",
+    "parent": "Employee Commissions Details",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -9882,7 +9882,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Employee Commissions Details",
+    "parent": "Employee Commissions Details",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -9953,7 +9953,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Employee Commissions Details",
+    "parent": "Employee Commissions Details",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -10024,7 +10024,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Employee Commissions Details",
+    "parent": "Employee Commissions Details",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -10095,7 +10095,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Employee Commissions Details",
+    "parent": "Employee Commissions Details",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -10166,7 +10166,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Employee Commissions Details",
+    "parent": "Employee Commissions Details",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -10237,7 +10237,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Employee Commissions Details",
+    "parent": "Employee Commissions Details",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -10308,7 +10308,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Employee Commissions Details",
+    "parent": "Employee Commissions Details",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -10379,7 +10379,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Employee Commissions Details",
+    "parent": "Employee Commissions Details",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -10450,7 +10450,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Employee Commissions Details",
+    "parent": "Employee Commissions Details",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -10521,7 +10521,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Employee Commissions Details",
+    "parent": "Employee Commissions Details",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -10533,7 +10533,7 @@
   "states": []
  },
  {
-  "name": "CRAFTED Register Closure",
+  "name": "Register Closure",
   "docstatus": 0,
   "restrict_to_domain": null,
   "read_only": 0,
@@ -10669,7 +10669,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Register Closure",
+    "parent": "Register Closure",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -10740,7 +10740,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Register Closure",
+    "parent": "Register Closure",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -10811,7 +10811,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Register Closure",
+    "parent": "Register Closure",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -10882,7 +10882,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Register Closure",
+    "parent": "Register Closure",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -10953,7 +10953,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Register Closure",
+    "parent": "Register Closure",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -11024,7 +11024,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Register Closure",
+    "parent": "Register Closure",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -11095,7 +11095,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Register Closure",
+    "parent": "Register Closure",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -11166,7 +11166,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Register Closure",
+    "parent": "Register Closure",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -11237,7 +11237,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Register Closure",
+    "parent": "Register Closure",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -11308,7 +11308,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Register Closure",
+    "parent": "Register Closure",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -11379,7 +11379,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Register Closure",
+    "parent": "Register Closure",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -11450,7 +11450,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Register Closure",
+    "parent": "Register Closure",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -11521,7 +11521,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Register Closure",
+    "parent": "Register Closure",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -11592,7 +11592,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Register Closure",
+    "parent": "Register Closure",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -11663,7 +11663,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Register Closure",
+    "parent": "Register Closure",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -11671,7 +11671,7 @@
    {
     "name": "hmu9h60h8j",
     "docstatus": 0,
-    "label": "CRAFTED Register Closure",
+    "label": "Register Closure",
     "fieldtype": "Section Break",
     "fieldname": "crafted_register_closure_section",
     "length": 0,
@@ -11734,7 +11734,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Register Closure",
+    "parent": "Register Closure",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -11805,7 +11805,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Register Closure",
+    "parent": "Register Closure",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -11876,7 +11876,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Register Closure",
+    "parent": "Register Closure",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -11947,7 +11947,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Register Closure",
+    "parent": "Register Closure",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -12018,7 +12018,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Register Closure",
+    "parent": "Register Closure",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -12089,7 +12089,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Register Closure",
+    "parent": "Register Closure",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -12160,7 +12160,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Register Closure",
+    "parent": "Register Closure",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -12231,7 +12231,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Register Closure",
+    "parent": "Register Closure",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -12302,7 +12302,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Register Closure",
+    "parent": "Register Closure",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -12373,7 +12373,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Register Closure",
+    "parent": "Register Closure",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -12394,7 +12394,7 @@
     "search_index": 0,
     "not_nullable": 0,
     "mask": 0,
-    "options": "CRAFTED Register Closure Payments",
+    "options": "Register Closure Payments",
     "sort_options": 0,
     "show_dashboard": 0,
     "link_filters": null,
@@ -12444,7 +12444,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Register Closure",
+    "parent": "Register Closure",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -12515,7 +12515,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Register Closure",
+    "parent": "Register Closure",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -12586,7 +12586,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Register Closure",
+    "parent": "Register Closure",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -12615,7 +12615,7 @@
     "print": 1,
     "email": 1,
     "impersonate": 0,
-    "parent": "CRAFTED Register Closure",
+    "parent": "Register Closure",
     "parentfield": "permissions",
     "parenttype": "DocType",
     "doctype": "DocPerm"
@@ -12626,7 +12626,7 @@
   "states": []
  },
  {
-  "name": "CRAFTED Register Closure Payments",
+  "name": "Register Closure Payments",
   "docstatus": 0,
   "restrict_to_domain": null,
   "read_only": 0,
@@ -12762,7 +12762,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Register Closure Payments",
+    "parent": "Register Closure Payments",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -12833,7 +12833,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Register Closure Payments",
+    "parent": "Register Closure Payments",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -12904,7 +12904,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Register Closure Payments",
+    "parent": "Register Closure Payments",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -12975,7 +12975,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Register Closure Payments",
+    "parent": "Register Closure Payments",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -13046,7 +13046,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Register Closure Payments",
+    "parent": "Register Closure Payments",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -13117,7 +13117,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Register Closure Payments",
+    "parent": "Register Closure Payments",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -13188,7 +13188,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Register Closure Payments",
+    "parent": "Register Closure Payments",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -13259,7 +13259,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Register Closure Payments",
+    "parent": "Register Closure Payments",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -13271,7 +13271,7 @@
   "states": []
  },
  {
-  "name": "CRAFTED Shift Type",
+  "name": "Store Shift Type",
   "docstatus": 0,
   "restrict_to_domain": null,
   "read_only": 0,
@@ -13407,7 +13407,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Shift Type",
+    "parent": "Store Shift Type",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -13478,7 +13478,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Shift Type",
+    "parent": "Store Shift Type",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -13549,7 +13549,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Shift Type",
+    "parent": "Store Shift Type",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -13620,7 +13620,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Shift Type",
+    "parent": "Store Shift Type",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -13691,7 +13691,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Shift Type",
+    "parent": "Store Shift Type",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -13762,7 +13762,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Shift Type",
+    "parent": "Store Shift Type",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -13833,7 +13833,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Shift Type",
+    "parent": "Store Shift Type",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -13904,7 +13904,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Shift Type",
+    "parent": "Store Shift Type",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -13975,7 +13975,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Shift Type",
+    "parent": "Store Shift Type",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -14046,7 +14046,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Shift Type",
+    "parent": "Store Shift Type",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -14117,7 +14117,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Shift Type",
+    "parent": "Store Shift Type",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -14188,7 +14188,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Shift Type",
+    "parent": "Store Shift Type",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -14259,7 +14259,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Shift Type",
+    "parent": "Store Shift Type",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -14330,7 +14330,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Shift Type",
+    "parent": "Store Shift Type",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -14401,7 +14401,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Shift Type",
+    "parent": "Store Shift Type",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -14472,7 +14472,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Shift Type",
+    "parent": "Store Shift Type",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -14543,7 +14543,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Shift Type",
+    "parent": "Store Shift Type",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -14614,7 +14614,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Shift Type",
+    "parent": "Store Shift Type",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -14643,7 +14643,7 @@
     "print": 1,
     "email": 1,
     "impersonate": 0,
-    "parent": "CRAFTED Shift Type",
+    "parent": "Store Shift Type",
     "parentfield": "permissions",
     "parenttype": "DocType",
     "doctype": "DocPerm"
@@ -14670,7 +14670,7 @@
     "print": 1,
     "email": 1,
     "impersonate": 0,
-    "parent": "CRAFTED Shift Type",
+    "parent": "Store Shift Type",
     "parentfield": "permissions",
     "parenttype": "DocType",
     "doctype": "DocPerm"
@@ -14697,7 +14697,7 @@
     "print": 1,
     "email": 1,
     "impersonate": 0,
-    "parent": "CRAFTED Shift Type",
+    "parent": "Store Shift Type",
     "parentfield": "permissions",
     "parenttype": "DocType",
     "doctype": "DocPerm"
@@ -14724,7 +14724,7 @@
     "print": 1,
     "email": 1,
     "impersonate": 0,
-    "parent": "CRAFTED Shift Type",
+    "parent": "Store Shift Type",
     "parentfield": "permissions",
     "parenttype": "DocType",
     "doctype": "DocPerm"
@@ -14735,7 +14735,7 @@
   "states": []
  },
  {
-  "name": "CRAFTED Shift Assignment",
+  "name": "Store Shift Assignment",
   "docstatus": 0,
   "restrict_to_domain": null,
   "read_only": 0,
@@ -14871,7 +14871,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Shift Assignment",
+    "parent": "Store Shift Assignment",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -14942,7 +14942,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Shift Assignment",
+    "parent": "Store Shift Assignment",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -15013,7 +15013,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Shift Assignment",
+    "parent": "Store Shift Assignment",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -15084,7 +15084,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Shift Assignment",
+    "parent": "Store Shift Assignment",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -15155,7 +15155,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Shift Assignment",
+    "parent": "Store Shift Assignment",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -15226,7 +15226,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Shift Assignment",
+    "parent": "Store Shift Assignment",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -15297,7 +15297,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Shift Assignment",
+    "parent": "Store Shift Assignment",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -15368,7 +15368,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Shift Assignment",
+    "parent": "Store Shift Assignment",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -15439,7 +15439,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Shift Assignment",
+    "parent": "Store Shift Assignment",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -15510,7 +15510,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Shift Assignment",
+    "parent": "Store Shift Assignment",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -15581,7 +15581,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Shift Assignment",
+    "parent": "Store Shift Assignment",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -15652,7 +15652,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Shift Assignment",
+    "parent": "Store Shift Assignment",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -15681,7 +15681,7 @@
     "print": 1,
     "email": 1,
     "impersonate": 0,
-    "parent": "CRAFTED Shift Assignment",
+    "parent": "Store Shift Assignment",
     "parentfield": "permissions",
     "parenttype": "DocType",
     "doctype": "DocPerm"
@@ -15708,7 +15708,7 @@
     "print": 1,
     "email": 1,
     "impersonate": 0,
-    "parent": "CRAFTED Shift Assignment",
+    "parent": "Store Shift Assignment",
     "parentfield": "permissions",
     "parenttype": "DocType",
     "doctype": "DocPerm"
@@ -15735,7 +15735,7 @@
     "print": 1,
     "email": 1,
     "impersonate": 0,
-    "parent": "CRAFTED Shift Assignment",
+    "parent": "Store Shift Assignment",
     "parentfield": "permissions",
     "parenttype": "DocType",
     "doctype": "DocPerm"
@@ -15762,7 +15762,7 @@
     "print": 1,
     "email": 1,
     "impersonate": 0,
-    "parent": "CRAFTED Shift Assignment",
+    "parent": "Store Shift Assignment",
     "parentfield": "permissions",
     "parenttype": "DocType",
     "doctype": "DocPerm"
@@ -15773,7 +15773,7 @@
   "states": []
  },
  {
-  "name": "CRAFTED Rooster Schedule",
+  "name": "Rooster Schedule",
   "docstatus": 0,
   "restrict_to_domain": null,
   "read_only": 0,
@@ -15909,7 +15909,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Rooster Schedule",
+    "parent": "Rooster Schedule",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -15980,7 +15980,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Rooster Schedule",
+    "parent": "Rooster Schedule",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -16051,7 +16051,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Rooster Schedule",
+    "parent": "Rooster Schedule",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -16122,7 +16122,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Rooster Schedule",
+    "parent": "Rooster Schedule",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -16193,7 +16193,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Rooster Schedule",
+    "parent": "Rooster Schedule",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -16264,7 +16264,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Rooster Schedule",
+    "parent": "Rooster Schedule",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -16335,7 +16335,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Rooster Schedule",
+    "parent": "Rooster Schedule",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -16406,7 +16406,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Rooster Schedule",
+    "parent": "Rooster Schedule",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -16477,7 +16477,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Rooster Schedule",
+    "parent": "Rooster Schedule",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -16548,7 +16548,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Rooster Schedule",
+    "parent": "Rooster Schedule",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -16619,7 +16619,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Rooster Schedule",
+    "parent": "Rooster Schedule",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -16690,7 +16690,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Rooster Schedule",
+    "parent": "Rooster Schedule",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -16761,7 +16761,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Rooster Schedule",
+    "parent": "Rooster Schedule",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -16832,7 +16832,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Rooster Schedule",
+    "parent": "Rooster Schedule",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -16903,7 +16903,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Rooster Schedule",
+    "parent": "Rooster Schedule",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -16974,7 +16974,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Rooster Schedule",
+    "parent": "Rooster Schedule",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -17045,7 +17045,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Rooster Schedule",
+    "parent": "Rooster Schedule",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -17116,7 +17116,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Rooster Schedule",
+    "parent": "Rooster Schedule",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -17187,7 +17187,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Rooster Schedule",
+    "parent": "Rooster Schedule",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -17258,7 +17258,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Rooster Schedule",
+    "parent": "Rooster Schedule",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -17329,7 +17329,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Rooster Schedule",
+    "parent": "Rooster Schedule",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -17400,7 +17400,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Rooster Schedule",
+    "parent": "Rooster Schedule",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -17471,7 +17471,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Rooster Schedule",
+    "parent": "Rooster Schedule",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -17542,7 +17542,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Rooster Schedule",
+    "parent": "Rooster Schedule",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -17613,7 +17613,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Rooster Schedule",
+    "parent": "Rooster Schedule",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -17684,7 +17684,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Rooster Schedule",
+    "parent": "Rooster Schedule",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -17755,7 +17755,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Rooster Schedule",
+    "parent": "Rooster Schedule",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -17826,7 +17826,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Rooster Schedule",
+    "parent": "Rooster Schedule",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -17897,7 +17897,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Rooster Schedule",
+    "parent": "Rooster Schedule",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -17968,7 +17968,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Rooster Schedule",
+    "parent": "Rooster Schedule",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -18039,7 +18039,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Rooster Schedule",
+    "parent": "Rooster Schedule",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -18110,7 +18110,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Rooster Schedule",
+    "parent": "Rooster Schedule",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -18181,7 +18181,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Rooster Schedule",
+    "parent": "Rooster Schedule",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -18252,7 +18252,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Rooster Schedule",
+    "parent": "Rooster Schedule",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -18323,7 +18323,7 @@
     "oldfieldname": null,
     "oldfieldtype": null,
     "show_description_on_click": 0,
-    "parent": "CRAFTED Rooster Schedule",
+    "parent": "Rooster Schedule",
     "parentfield": "fields",
     "parenttype": "DocType",
     "doctype": "DocField"
@@ -18352,7 +18352,7 @@
     "print": 1,
     "email": 1,
     "impersonate": 0,
-    "parent": "CRAFTED Rooster Schedule",
+    "parent": "Rooster Schedule",
     "parentfield": "permissions",
     "parenttype": "DocType",
     "doctype": "DocPerm"
@@ -18379,7 +18379,7 @@
     "print": 1,
     "email": 1,
     "impersonate": 0,
-    "parent": "CRAFTED Rooster Schedule",
+    "parent": "Rooster Schedule",
     "parentfield": "permissions",
     "parenttype": "DocType",
     "doctype": "DocPerm"
@@ -18406,7 +18406,7 @@
     "print": 1,
     "email": 1,
     "impersonate": 0,
-    "parent": "CRAFTED Rooster Schedule",
+    "parent": "Rooster Schedule",
     "parentfield": "permissions",
     "parenttype": "DocType",
     "doctype": "DocPerm"
@@ -18433,7 +18433,7 @@
     "print": 1,
     "email": 1,
     "impersonate": 0,
-    "parent": "CRAFTED Rooster Schedule",
+    "parent": "Rooster Schedule",
     "parentfield": "permissions",
     "parenttype": "DocType",
     "doctype": "DocPerm"

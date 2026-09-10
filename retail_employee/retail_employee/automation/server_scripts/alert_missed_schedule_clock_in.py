@@ -1,0 +1,130 @@
+# Missed Clock-IN Detector (near real-time)
+# Alerts shop@ + employee email + Desk session when an assigned shift started
+# and there is no Employee Checkin IN. Does NOT auto clock-out (see Clock Out script).
+
+CRAFTED_EMAIL = \"shop@craftedgoods.ca\"
+SENDER_EMAIL = \"erp-notifications@craftedgoods.ca\"
+MinuteGapShift = 10
+MinuteGapClock = 25
+GRACE_AFTER_START_MIN = 5
+
+try:
+    Now = frappe.utils.get_datetime()
+    clock_from_time = frappe.utils.add_to_date(Now, minutes=-MinuteGapClock)
+    window_end = frappe.utils.add_to_date(Now, minutes=-GRACE_AFTER_START_MIN)
+    window_start = frappe.utils.add_to_date(Now, minutes=-(MinuteGapShift + GRACE_AFTER_START_MIN))
+    day_start = frappe.utils.get_datetime(frappe.utils.today())
+
+    def employee_display(shift):
+        return (shift.get(\"prefered_name\") or shift.get(\"employee\") or \"Employee\")
+
+    def employee_user(employee):
+        if not employee:
+            return None
+        return frappe.db.get_value(\"Employee\", employee, \"user_id\")
+
+    def already_alerted(shift_name):
+        key = \"missed_clock_in:\" + str(shift_name)
+        if frappe.cache().get_value(key):
+            return True
+        frappe.cache().set_value(key, 1, expires_in_sec=60 * 60 * 16)
+        return False
+
+    def notify_session(user, title, message):
+        if not user:
+            return
+        try:
+            frappe.get_doc({
+                \"doctype\": \"Notification Log\",
+                \"subject\": title,
+                \"email_content\": message,
+                \"for_user\": user,
+                \"type\": \"Alert\",
+                \"document_type\": \"Store Schedule\",
+            }).insert(ignore_permissions=True)
+        except Exception:
+            frappe.log_error(title=\"Missed Clock In: Notification Log failed\", message=frappe.get_traceback())
+        try:
+            frappe.publish_realtime(
+                event=\"msgprint\",
+                message={\"message\": message, \"title\": title, \"indicator\": \"orange\"},
+                user=user,
+            )
+        except Exception:
+            frappe.log_error(title=\"Missed Clock In: publish_realtime failed\", message=frappe.get_traceback())
+
+    def send_mail(recipients, subject, message):
+        recipients = [r for r in recipients if r]
+        if not recipients:
+            return
+        frappe.sendmail(
+            recipients=recipients,
+            sender=SENDER_EMAIL,
+            subject=subject,
+            message=message,
+            now=True,
+        )
+
+    clock_entries = frappe.db.get_all(
+        \"Employee Checkin\",
+        filters=[[\"time\", \">=\", clock_from_time], [\"time\", \"<=\", Now]],
+        fields=[\"employee\", \"log_type\", \"time\", \"device_id\"],
+        order_by=\"time\",
+    )
+
+    shifts_in = frappe.db.get_all(
+        \"Store Schedule\",
+        filters=[
+            [\"time_in\", \">=\", window_start],
+            [\"time_in\", \"<=\", window_end],
+            [\"employee\", \"is\", \"set\"],
+            [\"assigned\", \"=\", 1],
+        ],
+        fields=[
+            \"name\", \"employee\", \"employee_email\", \"outlet_name\",
+            \"prefered_name\", \"published\", \"role\", \"time_in\", \"time_out\",
+            \"calendar_text\", \"assigned\",
+        ],
+        order_by=\"time_in\",
+    )
+
+    for shift in shifts_in:
+        emp = shift.get(\"employee\")
+        if not emp:
+            continue
+        has_in = any((e.get(\"employee\") == emp and e.get(\"log_type\") == \"IN\") for e in clock_entries)
+        if not has_in:
+            has_in = bool(frappe.db.exists(
+                \"Employee Checkin\",
+                {\"employee\": emp, \"log_type\": \"IN\", \"time\": [\"between\", [day_start, Now]]},
+            ))
+        if has_in:
+            continue
+        if already_alerted(shift.get(\"name\")):
+            continue
+
+        display = employee_display(shift)
+        outlet = shift.get(\"outlet_name\") or \"the store\"
+        when = frappe.utils.get_datetime(shift.get(\"time_in\")).strftime(\"%Y-%m-%d %H:%M\")
+        title = \"Missed clock-in: {0}\".format(display)
+        shop_msg = (
+            \"<p><b>{0}</b> was scheduled to start at <b>{1}</b> at <b>{2}</b> \"
+            \"and has not clocked in.</p>\"
+            \"<p>Schedule: <a href='https://erp.craftedgoods.ca/app/crafted-store-schedule/{3}'>{3}</a><br>\"
+            \"Checkins: <a href='https://erp.craftedgoods.ca/app/employee-checkin?employee={4}'>open</a></p>\"
+        ).format(display, when, outlet, shift.get(\"name\"), emp)
+        emp_msg = (
+            \"<p>Hey {0},</p>\"
+            \"<p>You were scheduled to start at <b>{1}</b> at <b>{2}</b> and we do not \"
+            \"see a clock-in yet.</p>\"
+            \"<p>Please clock in now: \"
+            \"<a href='https://erp.craftedgoods.ca/employee-clock-in-out/new'>Clock In / Out</a></p>\"
+        ).format(display, when, outlet)
+
+        send_mail([CRAFTED_EMAIL], title, shop_msg)
+        send_mail([shift.get(\"employee_email\")], \"Please clock in — {0}\".format(when), emp_msg)
+        notify_session(employee_user(emp), title, emp_msg)
+
+except Exception:
+    frappe.log_error(title=\"Alert Missed Schedule Clock In\", message=frappe.get_traceback())
+    raise
