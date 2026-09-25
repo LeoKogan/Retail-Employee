@@ -1,117 +1,160 @@
-# Set debug log level
-# Function to log detailed error
-shift_outlet_name = \"Events Outside Crafted\"
-shift_role = \"Event Worker\"
-shift_id = \"\"
-Notes=\"\"
-shift_time_in= \"\"
-shift_time_out= \"\"
-Scheduled_hours= 0
+# Create Time Sheet for Employee  (DocType Event: Employee Checkin / After Save)
+# On every OUT punch: pair it with the latest IN of the SAME DAY (after any earlier OUT),
+# link it to the scheduled shift of the PUNCH DATE, and add/update one row in the
+# employee's CRAFTED Timesheets for the payroll period.
+# 2026-09-25 fix: use punch date (not today()), same-day pairing, skip shifts already used,
+# idempotent (re-saving an OUT updates its row instead of appending a duplicate),
+# only remove the placeholder row that belongs to this IN.
 
 def log_error_with_context(e, context):
-    error_message = f\"Error in context: {context} - Exception: {str(e)}\"
-    frappe.log_error(error_message)
-#Available Fields on Employee Checkin
-#  Clock_out.employee
-#  Clock_out.employee_name
-#  Clock_out.log_type
-#  Clock_out.shift
-#  Clock_out.time
-#  Clock_out.device_id
-#  Clock_out.skip_auto_attendance
-#  Clock_out.attendance
-#  Clock_out.shift_start
-#  Clock_out.shift_end
-#  Clock_out.shift_actual_start
-#  Clock_out.shift_actual_end
-Clock_out=doc
-try:
-    employee_ID=Clock_out.employee
-    if Clock_out.log_type == \"OUT\":
-        time_clock_out = Clock_out.time
-        #get Current Payroll
-        Payroll_Period =  frappe.db.get_all('Payroll Period',
-            filters={'start_date': ['<=', time_clock_out],'end_date':['>=', time_clock_out]},
-            fields=['name'],
-            pluck='name'
-        )[0]
-        
-        #get the Checkin
-        Clock_in =  frappe.db.get_all('Employee Checkin',
-            filters={'time': ['<', time_clock_out],'log_type':['=', 'IN'],'employee':['=', employee_ID]},
-            fields=['*'],
-            order_by='time desc'
-        )[0]
-        
-        today = frappe.utils.today()
-        # Get the start and end of today
-        start_of_day = frappe.utils.add_to_date(today, hours=0, minutes=0, seconds=0, as_datetime=True)
-        end_of_day =   frappe.utils.add_to_date(today, hours=23, minutes=59, seconds=59, as_datetime=True)
-        #Check for Holidays
-        Today_is_a_holiday = frappe.db.exists({\"doctype\":\"Holiday\",\"holiday_date\":[\"=\",today]})
-        #Make an effort to get a scheduled shift
-        scheduled_shift =  frappe.db.get_all(\"Store Schedule\",
-            filters={'time_in': ['>', start_of_day],'time_out': ['<', end_of_day],'employee':['=', employee_ID]},
-            fields=['name','outlet_name','time_in','time_out','role']
-        )
-        #If there is a shift pull relevant data
-        if bool(scheduled_shift):
-            shift_outlet_name = scheduled_shift[0].outlet_name
-            shift_role = scheduled_shift[0].role
-            shift_id = scheduled_shift[0].name
-            shift_time_in=scheduled_shift[0].time_in
-            shift_time_out=scheduled_shift[0].time_out
-            Scheduled_hours = frappe.utils.time_diff_in_hours(shift_time_out,shift_time_in)
-        #Check if exist or Create Timesheet for the pyaroll period 
-        Employee_Timesheet = frappe.db.get_all('Timesheets',
-            filters={'payroll_period':['=', Payroll_Period],'employee':['=', employee_ID]},
-            fields=['*']
-        )
-        Worked_hours= frappe.utils.time_diff_in_hours(Clock_out.time,Clock_in.time)
-        
-        #If Employee_Timesheet doesn't exist for the period we create one and add the timelog entry for today
-        
-        if Clock_in.device_id is not None:
-            Notes = Notes + \"Clock In at:
-\" + Clock_in.device_id+ \"
-\"
-        if Clock_out.device_id is not None:
-            Notes = Notes +\"Clock Out at:
-\" + Clock_out.device_id+ \"
-\"
-        time_log={'outlet_name': shift_outlet_name,
-                'role': shift_role,
-                'id':shift_id,
-                'from_time':Clock_in.time,
-                'to_time':Clock_out.time,
-                'hours': Worked_hours,
-                'extra_hrs' : 0.0,
-                'expected_hours': Scheduled_hours,
-                'notes': Notes}
-        #if is a Holiday We need to pay 1.5 per worked hour
-        if Today_is_a_holiday is not None:
-            time_log[\"extra_hrs\"] = (Worked_hours * 0.5)
-            time_log[\"notes\"]= Notes + \"This is a holiday, extra hours have been added to extra hours\"+ \"
-\"
+    frappe.log_error("Error in context: " + str(context) + " - Exception: " + str(e))
 
-        if bool(Employee_Timesheet):
-            #If Employee_Timesheet exist for the period we need to read the timelog entries to determine if this is an update or a new one
-            Existing_Employee_Timesheet = frappe.get_doc('Timesheets',Employee_Timesheet[0].name)
-            #once Timesheet check if this is a modification update Timeshet detail
-            for timelog_entry in Existing_Employee_Timesheet.time_logs:
-                if timelog_entry.notes == \"Daily Clock Hours Calculation\":
-                    Existing_Employee_Timesheet.remove(timelog_entry)
-            Existing_Employee_Timesheet.append(\"time_logs\", time_log)
-            Existing_Employee_Timesheet.save()
+def build_timesheet_row(Clock_out):
+    # NOTE: helpers must live inside this function (Server Script defs at top level
+    # are not visible from other functions in safe_exec).
+    def same_time(a, b):
+        if not a or not b:
+            return False
+        return frappe.utils.get_datetime(a) == frappe.utils.get_datetime(b)
+
+    SCHEDULE_DT = "CRAFTED Store Schedule"
+    TIMESHEET_DT = "CRAFTED Timesheets"
+    PLACEHOLDER = "Daily Clock Hours Calculation"
+
+    shift_outlet_name = "Events Outside Crafted"
+    shift_role = "Event Worker"
+    shift_id = ""
+    Notes = ""
+    Scheduled_hours = 0
+
+    employee_ID = Clock_out.employee
+    time_clock_out = frappe.utils.get_datetime(Clock_out.time)
+    punch_day = frappe.utils.getdate(time_clock_out)
+    start_of_day = frappe.utils.get_datetime(str(punch_day) + " 00:00:00")
+    end_of_day = frappe.utils.get_datetime(str(punch_day) + " 23:59:59")
+
+    # Payroll period of the punch (unchanged behaviour)
+    Payroll_Period = frappe.db.get_all('Payroll Period',
+        filters={'start_date': ['<=', time_clock_out], 'end_date': ['>=', time_clock_out]},
+        fields=['name'],
+        pluck='name'
+    )[0]
+
+    # Latest earlier OUT on the same day (the IN must come after it)
+    prev_out = frappe.db.get_all('Employee Checkin',
+        filters=[['employee', '=', employee_ID], ['log_type', '=', 'OUT'],
+                 ['time', '>=', start_of_day], ['time', '<', time_clock_out],
+                 ['name', '!=', Clock_out.name]],
+        fields=['time'], order_by='time desc', limit=1)
+    in_filters = [['employee', '=', employee_ID], ['log_type', '=', 'IN'],
+                  ['time', '<=', time_clock_out]]
+    if prev_out:
+        in_filters.append(['time', '>', prev_out[0].time])
+    else:
+        in_filters.append(['time', '>=', start_of_day])
+    Clock_ins = frappe.db.get_all('Employee Checkin', filters=in_filters,
+        fields=['*'], order_by='time desc', limit=1)
+    if not Clock_ins:
+        frappe.log_error(
+            title="Create Time Sheet for Employee: no matching IN",
+            message="OUT " + str(Clock_out.name) + " for " + str(employee_ID) + " at " + str(time_clock_out)
+                + " has no IN on " + str(punch_day) + " after the previous OUT. No timesheet row created.")
+        return
+    Clock_in = Clock_ins[0]
+    time_clock_in = frappe.utils.get_datetime(Clock_in.time)
+
+    # Holiday check on the punch date
+    Punch_day_is_a_holiday = frappe.db.exists({"doctype": "Holiday", "holiday_date": ["=", punch_day]})
+
+    # Existing timesheet for the period
+    Employee_Timesheet = frappe.db.get_all(TIMESHEET_DT,
+        filters={'payroll_period': ['=', Payroll_Period], 'employee': ['=', employee_ID]},
+        fields=['name']
+    )
+    Existing_Employee_Timesheet = None
+    used_shift_ids = []
+    if Employee_Timesheet:
+        Existing_Employee_Timesheet = frappe.get_doc(TIMESHEET_DT, Employee_Timesheet[0].name)
+        for row in Existing_Employee_Timesheet.time_logs:
+            if row.id and row.notes != PLACEHOLDER and not same_time(row.from_time, time_clock_in):
+                used_shift_ids.append(row.id)
+
+    # Scheduled shifts on the punch date, not already used by another row
+    shifts = frappe.db.get_all(SCHEDULE_DT,
+        filters=[['employee', '=', employee_ID], ['time_in', '>=', start_of_day], ['time_in', '<=', end_of_day]],
+        fields=['name', 'outlet_name', 'time_in', 'time_out', 'role'],
+        order_by='time_in asc')
+    best = None
+    best_overlap = False
+    best_gap = None
+    for s in shifts:
+        if s.name in used_shift_ids:
+            continue
+        s_in = frappe.utils.get_datetime(s.time_in)
+        s_out = frappe.utils.get_datetime(s.time_out)
+        overlap = (s_in < time_clock_out) and (s_out > time_clock_in)
+        gap = abs(frappe.utils.time_diff_in_seconds(s_in, time_clock_in))
+        if best is None or (overlap and not best_overlap) or (overlap == best_overlap and gap < best_gap):
+            best = s
+            best_overlap = overlap
+            best_gap = gap
+    if best:
+        shift_outlet_name = best.outlet_name
+        shift_role = best.role
+        shift_id = best.name
+        Scheduled_hours = frappe.utils.time_diff_in_hours(best.time_out, best.time_in)
+
+    Worked_hours = frappe.utils.time_diff_in_hours(time_clock_out, time_clock_in)
+
+    if Clock_in.device_id is not None:
+        Notes = Notes + "Clock In at:\n" + Clock_in.device_id + "\n"
+    if Clock_out.device_id is not None:
+        Notes = Notes + "Clock Out at:\n" + Clock_out.device_id + "\n"
+    time_log = {'outlet_name': shift_outlet_name,
+            'role': shift_role,
+            'id': shift_id,
+            'from_time': Clock_in.time,
+            'to_time': Clock_out.time,
+            'hours': Worked_hours,
+            'extra_hrs': 0.0,
+            'expected_hours': Scheduled_hours,
+            'notes': Notes}
+    # Holiday: pay 1.5 per worked hour
+    if Punch_day_is_a_holiday is not None:
+        time_log["extra_hrs"] = (Worked_hours * 0.5)
+        time_log["notes"] = Notes + "This is a holiday, extra hours have been added to extra hours" + "\n"
+
+    if Existing_Employee_Timesheet:
+        # Remove only the placeholder row of this IN
+        to_remove = []
+        existing_row = None
+        for row in Existing_Employee_Timesheet.time_logs:
+            if same_time(row.from_time, time_clock_in):
+                if row.notes == PLACEHOLDER:
+                    to_remove.append(row)
+                elif existing_row is None:
+                    existing_row = row
+        for row in to_remove:
+            Existing_Employee_Timesheet.remove(row)
+        if existing_row:
+            # Re-save of the same OUT (or corrected OUT): update, don't duplicate
+            for k in time_log:
+                existing_row.set(k, time_log[k])
         else:
-            Employee_Timesheet =  frappe.get_doc(dict(
-                    doctype = 'Timesheets',
-                    employee = employee_ID,
-                    payroll_period = Payroll_Period
-                ))
-            Employee_Timesheet.append(\"time_logs\", time_log)
-            Employee_Timesheet.insert()
+            Existing_Employee_Timesheet.append("time_logs", time_log)
+        Existing_Employee_Timesheet.save()
+    else:
+        New_Timesheet = frappe.get_doc(dict(
+                doctype=TIMESHEET_DT,
+                employee=employee_ID,
+                payroll_period=Payroll_Period
+            ))
+        New_Timesheet.append("time_logs", time_log)
+        New_Timesheet.insert()
 
+try:
+    if doc.log_type == "OUT":
+        build_timesheet_row(doc)
 except Exception as e:
-     log_error_with_context(e, \"Error Overall Script\")
-     frappe.log_error(frappe.get_traceback(), \"Create Time Sheet for Employee Script. Failed\")
+    log_error_with_context(e, "Error Overall Script")
+    frappe.log_error(frappe.get_traceback(), "Create Time Sheet for Employee Script. Failed")
