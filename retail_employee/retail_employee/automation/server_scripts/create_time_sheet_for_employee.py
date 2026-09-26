@@ -157,4 +157,4 @@ try:
         build_timesheet_row(doc)
 except Exception as e:
     log_error_with_context(e, "Error Overall Script")
-    frappe.log_error(frappe.get_traceback(), "Create Time Sheet for Employee Script. Failed")
+    frappe.log_error(title="Create Time Sheet for Employee Script. Failed")
