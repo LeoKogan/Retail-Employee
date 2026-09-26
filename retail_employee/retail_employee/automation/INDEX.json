@@ -8,6 +8,13 @@
       "script_type": "Scheduler Event"
     },
     {
+      "slug": "alert_shop_on_missed_clock_in",
+      "name": "Alert shop@ on Missed Clock-In",
+      "reference_doctype": null,
+      "doctype_event": "Before Insert",
+      "script_type": "Scheduler Event"
+    },
+    {
       "slug": "assign_payroll_period_to_sales_target",
       "name": "Assign Payroll Period to Sales Target",
       "reference_doctype": "Sales Targets",
@@ -39,13 +46,6 @@
       "slug": "clock_out_employee_after_shift_is_over",
       "name": "Clock Out Employee After shift is over",
       "reference_doctype": null,
-      "doctype_event": "Before Insert",
-      "script_type": "Scheduler Event"
-    },
-    {
-      "slug": "sales_commissions_hourly_calculation",
-      "name": "Sales Commissions Hourly Calculation",
-      "reference_doctype": "About Us Settings",
       "doctype_event": "Before Insert",
       "script_type": "Scheduler Event"
     },
@@ -88,6 +88,13 @@
       "slug": "roll_store_schedule_to_next_payroll_period",
       "name": "Roll Store Schedule to Next Payroll Period",
       "reference_doctype": null,
+      "doctype_event": "Before Insert",
+      "script_type": "Scheduler Event"
+    },
+    {
+      "slug": "sales_commissions_hourly_calculation",
+      "name": "Sales Commissions Hourly Calculation",
+      "reference_doctype": "About Us Settings",
       "doctype_event": "Before Insert",
       "script_type": "Scheduler Event"
     },

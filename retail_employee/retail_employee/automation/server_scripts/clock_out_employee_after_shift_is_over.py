@@ -18,7 +18,7 @@ shift_end_check_limit = frappe.utils.add_to_date(current_datetime, minutes=-shif
 recent_shifts = frappe.db.get_all(
     'CRAFTED Store Schedule',
     filters=[['time_out', '>=', shift_end_check_limit], ['time_out', '<', current_datetime]],
-    fields=['name', 'employee', 'time_in', 'time_out'],
+    fields=['name', 'employee', 'time_in', 'time_out', 'outlet_name', 'prefered_name'],
     order_by='time_out'
 )
 
@@ -73,18 +73,26 @@ for shift in recent_shifts:
         automatic_clock_outs = automatic_clock_outs + 1
 
         try:
+            emp_name = frappe.db.get_value('Employee', shift['employee'], 'employee_name') or shift.get('prefered_name') or shift['employee']
+            outlet = shift.get('outlet_name') or '(no store set)'
+            t_in = frappe.utils.format_datetime(shift['time_in'], "EEE MMM d, h:mm a")
+            t_out = frappe.utils.format_datetime(shift['time_out'], "h:mm a")
+            t_auto = frappe.utils.format_datetime(auto_clock_out_entry.time, "EEE MMM d, h:mm a")
             frappe.sendmail(
-                recipients=['hr@craftedgoods.ca'],
-                subject=f"Automatic Clock-Out for Employee {shift['employee']}",
+                recipients=['hr@craftedgoods.ca', 'shop@craftedgoods.ca'],
+                subject=f"Automatic Clock-Out: {emp_name} @ {outlet} ({t_in})",
                 message=f"""
-                <p>Employee <b>{shift['employee']}</b> was automatically clocked out.</p>
-                <p><b>Shift End Time:</b> {frappe.utils.get_datetime_str(shift['time_out'])}</p>
-                <p><b>Clock-Out Time:</b> {frappe.utils.get_datetime_str(auto_clock_out_entry.time)}</p>
-                <p>This action was taken automatically after the grace period expired.</p>
+                <p><b>{emp_name}</b> ({shift['employee']}) did not clock out and was automatically clocked out.</p>
+                <p><b>Store:</b> {outlet}<br>
+                <b>Scheduled shift:</b> {t_in} – {t_out}<br>
+                <b>Automatic Clock-Out time:</b> {t_auto}</p>
+                <p>No clock-out was found {clock_out_grace_period} minutes (grace period) after the shift end, so an OUT was
+                recorded at the scheduled end time. Please confirm the actual end time with the employee and correct the checkin if needed.</p>
+                <p>Schedule: <a href='https://erp.craftedgoods.ca/app/crafted-store-schedule/{shift['name']}'>{shift['name']}</a></p>
             """
             )
         except Exception:
-            pass
+            frappe.log_error(title=f"Automatic Clock-Out email failed for {shift['employee']}")
 
         try:
             frappe.log_error(
