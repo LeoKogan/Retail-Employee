@@ -1,5 +1,5 @@
 # Alert shop@ on Missed Clock-In (Scheduler Event, cron */5 7-20 * * *)
-# For each CRAFTED Store Schedule shift today that started 15+ minutes ago and has not
+# For each Store Schedule shift today that started 15+ minutes ago and has not
 # ended, if the (Active) employee has no Employee Checkin IN between (time_in - 60 min)
 # and now, email shop@craftedgoods.ca once. Staff are NOT emailed / SMS'd here.
 # Dedupe: an Info Comment "MISSED-CLOCK-IN-ALERT" is added on the schedule doc after the
@@ -18,7 +18,7 @@ try:
     started_before = frappe.utils.add_to_date(now, minutes=-GRACE_MIN)
 
     shifts = frappe.db.get_all(
-        "CRAFTED Store Schedule",
+        "Store Schedule",
         filters=[
             ["time_in", ">=", day_start],
             ["time_in", "<=", started_before],
@@ -36,7 +36,7 @@ try:
             if frappe.db.get_value("Employee", emp, "status") != "Active":
                 continue
             if frappe.db.exists("Comment", {
-                "reference_doctype": "CRAFTED Store Schedule",
+                "reference_doctype": "Store Schedule",
                 "reference_name": shift.name,
                 "comment_type": "Info",
                 "content": ["like", DEDUPE_TAG + "%"],
@@ -69,7 +69,7 @@ try:
                 "<p><b>Store:</b> " + str(outlet) + "<br>"
                 "<b>Role:</b> " + str(shift.role or "") + "<br>"
                 "<b>Scheduled shift:</b> " + t_in + " – " + t_out + "</p>"
-                "<p>Schedule: <a href='https://erp.craftedgoods.ca/app/crafted-store-schedule/" + shift.name + "'>"
+                "<p>Schedule: <a href='https://erp.craftedgoods.ca/app/store-schedule/" + shift.name + "'>"
                 + shift.name + "</a><br>"
                 "Checkins: <a href='https://erp.craftedgoods.ca/app/employee-checkin?employee=" + str(emp) + "'>open</a></p>"
             )
@@ -77,7 +77,7 @@ try:
             frappe.get_doc({
                 "doctype": "Comment",
                 "comment_type": "Info",
-                "reference_doctype": "CRAFTED Store Schedule",
+                "reference_doctype": "Store Schedule",
                 "reference_name": shift.name,
                 "content": DEDUPE_TAG + ": emailed " + SHOP_EMAIL + " at " + str(now).split(".")[0],
             }).insert(ignore_permissions=True)

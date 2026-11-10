@@ -186,7 +186,8 @@
     "CRAFTED Store Roles": "Store Roles",
     "CRAFTED Sales Report": "Sales Report",
     "CRAFTED Timesheets": "Timesheets",
-    "CRAFTED Timesheet Detail": "Timesheet Detail"
+  "CRAFTED Payments": "Store Payments",
+    "CRAFTED Timesheet Detail": "Timesheets Detail"
   },
   "web_pages": [
     {

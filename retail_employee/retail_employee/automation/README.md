@@ -16,16 +16,19 @@
 ## DocType rename
 `CRAFTED …` prefix removed. HRMS collisions → `Store Shift Type`, `Store Shift Assignment`.
 
-## Prod vs testing (local) variants of Server Scripts
-- `server_scripts/*.py|json` are **prod-shaped** (erp.craftedgoods.ca, `CRAFTED …` DocTypes).
-- `server_scripts_local/` holds the **testing** variants (crafted.localhost, un-prefixed DocTypes:
-  `Store Schedule`, `Timesheets`, `Employee Info`; links to `http://crafted.localhost:8000`).
-  Regenerate with `python3 make_local_variants.py` after changing a prod script; do not hand-edit.
-  Currently ported: Create Time Sheet for Employee, Clock Out Employee After shift is over,
-  Alert shop@ on Missed Clock-In, Alert Missed Schedule Clock In (disabled).
-- Install on the testing site (never prod): `bench set-config -g server_script_enabled 1`, copy
-  `server_scripts_local/*.json` into the container and run `install_local_server_scripts.install`
-  (see its docstring).
-- The local app has no `Timesheets` DocType yet (prod `CRAFTED Timesheets`/`CRAFTED Timesheet Detail`;
-  `Timesheet Detail` collides with ERPNext), so the local Create Time Sheet variant is a no-op until
-  that DocType exists.
+## Prod and testing share DocType names
+- Production (erp.craftedgoods.ca) dropped the `CRAFTED ` DocType prefix on 2026-11-09 (e.g. `Store Schedule`,
+  `Timesheets`, `Timesheets Detail`, `Employee Info`, `Store Payments`), so prod and the app use the same names.
+- `server_scripts/`, `client_scripts/`, `notifications/` and `../web_page/` are exported from production
+  (production is the source of truth). Some record names keep `CRAFTED` (e.g. the Server Script
+  "CRAFTED Sales Commissions Hourly Calculation", Report "CRAFTED Payroll Report"); only DocTypes were renamed.
+- The separate `server_scripts_local/` variants and `make_local_variants.py` are gone. To load a script on a
+  testing site (never prod): `bench set-config -g server_script_enabled 1`, copy `server_scripts/<slug>.json`
+  into the container and run `install_local_server_scripts.install` (see its docstring). Links in the scripts
+  point at erp.craftedgoods.ca.
+
+## Custom Fields
+- `custom_fields/employee_checkin_store_schedule.json`: read-only Link `Employee Checkin.store_schedule` -> `Store Schedule`,
+  set on insert by the Server Script "Employee Checkin Use Server Time" (added 2026-11-09; 4,433 past punches backfilled).
+- `custom_fields/employee_employee_category.json`: Select `Employee.employee_category` (Store/Corp, default Store).
+  manage-shifts lists and assigns only Store employees; Corp = office/admin/bot accounts.

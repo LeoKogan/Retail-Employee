@@ -1,0 +1,19 @@
+{
+  "name": "Employee-employee_category",
+  "dt": "Employee",
+  "module": "CRAFTED",
+  "label": "Employee Category",
+  "fieldname": "employee_category",
+  "fieldtype": "Select",
+  "options": "Store\nCorp",
+  "default": "Store",
+  "insert_after": "status",
+  "read_only": 0,
+  "no_copy": 0,
+  "in_list_view": 1,
+  "in_standard_filter": 1,
+  "search_index": 0,
+  "description": "Store = works store shifts (listed on manage-shifts). Corp = office/admin/bot accounts.",
+  "reqd": 0,
+  "hidden": 0
+}

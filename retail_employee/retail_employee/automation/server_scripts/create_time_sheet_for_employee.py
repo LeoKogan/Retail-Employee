@@ -1,7 +1,7 @@
 # Create Time Sheet for Employee  (DocType Event: Employee Checkin / After Save)
 # On every OUT punch: pair it with the latest IN of the SAME DAY (after any earlier OUT),
 # link it to the scheduled shift of the PUNCH DATE, and add/update one row in the
-# employee's CRAFTED Timesheets for the payroll period.
+# employee's Timesheets for the payroll period.
 # 2026-09-25 fix: use punch date (not today()), same-day pairing, skip shifts already used,
 # idempotent (re-saving an OUT updates its row instead of appending a duplicate),
 # only remove the placeholder row that belongs to this IN.
@@ -17,8 +17,8 @@ def build_timesheet_row(Clock_out):
             return False
         return frappe.utils.get_datetime(a) == frappe.utils.get_datetime(b)
 
-    SCHEDULE_DT = "CRAFTED Store Schedule"
-    TIMESHEET_DT = "CRAFTED Timesheets"
+    SCHEDULE_DT = "Store Schedule"
+    TIMESHEET_DT = "Timesheets"
     PLACEHOLDER = "Daily Clock Hours Calculation"
 
     shift_outlet_name = "Events Outside Crafted"

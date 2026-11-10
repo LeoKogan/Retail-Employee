@@ -13,6 +13,6 @@ frappe.ui.form.on('Timesheets', {
         });
 
         // 3. Refresh the grid on the UI
-        frm.refresh_field('Timesheet Detail');
+        frm.refresh_field('Timesheets Detail');
     }
 });

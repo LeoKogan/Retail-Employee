@@ -17,7 +17,7 @@ frappe.ui.form.on('Store Schedule', {
       crafted_schedule_apply_color(frm);
       crafted_schedule_refresh_publish_buttons(frm);
     } catch (e) {
-      console.error('Store Schedule-Form (refresh)', e);
+      console.error('CRAFTED Store Schedule-Form (refresh)', e);
       frappe.msgprint({
         title: __('Store Schedule'),
         indicator: 'red',
@@ -77,7 +77,7 @@ frappe.ui.form.on('Store Schedule', {
         );
       }
     } catch (e) {
-      console.error('Store Schedule-Form (validate)', e);
+      console.error('CRAFTED Store Schedule-Form (validate)', e);
       frappe.msgprint({
         title: __('Store Schedule'),
         indicator: 'red',
@@ -100,7 +100,7 @@ frappe.ui.form.on('Store Schedule', {
         crafted_schedule_apply_color(frm);
       });
     } catch (e) {
-      console.error('Store Schedule-Form (outlet_name)', e);
+      console.error('CRAFTED Store Schedule-Form (outlet_name)', e);
     }
   },
 
@@ -120,7 +120,7 @@ frappe.ui.form.on('Store Schedule', {
         });
       }
     } catch (e) {
-      console.error('Store Schedule-Form (time_in)', e);
+      console.error('CRAFTED Store Schedule-Form (time_in)', e);
     }
   },
 
@@ -132,7 +132,7 @@ frappe.ui.form.on('Store Schedule', {
         });
       }
     } catch (e) {
-      console.error('Store Schedule-Form (time_out)', e);
+      console.error('CRAFTED Store Schedule-Form (time_out)', e);
     }
   },
 });
@@ -149,7 +149,7 @@ const CRAFTED_OUTLET_CALENDAR_COLORS = {
 function crafted_schedule_time_hm(dt) {
   if (!dt) return '';
   const s = String(dt);
-  // \"YYYY-MM-DD HH:MM:SS\" or ISO
+  // "YYYY-MM-DD HH:MM:SS" or ISO
   const m = s.match(/(\d{2}):(\d{2})/);
   return m ? m[1] + ':' + m[2] : '';
 }

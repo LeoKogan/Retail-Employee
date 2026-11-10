@@ -15,9 +15,9 @@ try:
     # -----------------------------------------------------------------------------
     # Configuration
     # -----------------------------------------------------------------------------
-    RECIPIENT_EMAIL = \"shop@craftedgoods.ca\"
-    SENDER_EMAIL = \"erp-notifications@craftedgoods.ca\"
-    AUTO_DEVICE_ID = \"Automatic Clock out - missed at end of day\"
+    RECIPIENT_EMAIL = "shop@craftedgoods.ca"
+    SENDER_EMAIL = "erp-notifications@craftedgoods.ca"
+    AUTO_DEVICE_ID = "Automatic Clock out - missed at end of day"
 
     # -----------------------------------------------------------------------------
     # Time window: full calendar day (today)
@@ -31,13 +31,13 @@ try:
     # Helpers
     # -----------------------------------------------------------------------------
     def get_scheduled_clock_out(employee, day_start, day_end):
-        \"\"\"
+        """
         Look up the employee's scheduled shift end time for today from
         Store Schedule. Returns a datetime or None if no shift is found.
 
         If the employee has multiple shifts in one day, take the latest time_out
         so we cover their entire workday with one auto clock-out.
-        \"\"\"
+        """
         shifts = frappe.db.get_all(
             'Store Schedule',
             filters=[
@@ -53,7 +53,7 @@ try:
 
 
     def create_auto_clock_out(employee, time):
-        \"\"\"Create the missing Employee Checkin (OUT) record.\"\"\"
+        """Create the missing Employee Checkin (OUT) record."""
         frappe.get_doc(dict(
             doctype='Employee Checkin',
             employee=employee,
@@ -64,7 +64,7 @@ try:
 
 
     def fmt_time(dt):
-        \"\"\"Format a datetime as HH:MM.\"\"\"
+        """Format a datetime as HH:MM."""
         return frappe.utils.get_datetime(dt).strftime('%H:%M')
 
 
@@ -118,7 +118,7 @@ try:
     # Step 3: Auto clock-out anyone who clocked IN but never clocked OUT
     #
     # RULE: We only auto-clock-OUT if the employee actually clocked IN today.
-    #       If they have no IN entry, we leave it as \"Missing\" in the report —
+    #       If they have no IN entry, we leave it as "Missing" in the report —
     #       we won't fabricate a workday for someone who never showed up on
     #       the clock.
     # -----------------------------------------------------------------------------
@@ -131,16 +131,16 @@ try:
 
             if scheduled_out:
                 out_time = scheduled_out
-                source = \"scheduled shift end\"
+                source = "scheduled shift end"
             else:
                 # No scheduled shift found — fall back to end of day
                 out_time = end_of_day
-                source = \"end of day (no shift on schedule)\"
+                source = "end of day (no shift on schedule)"
 
             # Safety: don't clock out BEFORE they clocked in
             if out_time < logs['IN']['time']:
                 out_time = logs['IN']['time']
-                source += \" (adjusted: was before clock-in)\"
+                source += " (adjusted: was before clock-in)"
 
             create_auto_clock_out(emp, out_time)
 
@@ -156,87 +156,87 @@ try:
     # -----------------------------------------------------------------------------
     # Step 4: Build the HTML summary table
     # -----------------------------------------------------------------------------
-    table_style = \"border-collapse: collapse;\"
-    cell_style = \"border: 1px solid #ccc; padding: 6px 10px;\"
-    auto_style = \"color: #b25900; background-color: #fff4e0; padding: 4px; border-radius: 3px;\"   # orange-ish to highlight auto-generated entries
-    miss_style = \"color: red; text-align: center;\"
+    table_style = "border-collapse: collapse;"
+    cell_style = "border: 1px solid #ccc; padding: 6px 10px;"
+    auto_style = "color: #b25900; background-color: #fff4e0; padding: 4px; border-radius: 3px;"   # orange-ish to highlight auto-generated entries
+    miss_style = "color: red; text-align: center;"
 
     complete_logs_table = (
-        f\"<table style='{table_style}'>\"
-        f\"<tr>\"
-        f\"<th style='{cell_style}'>Employee</th>\"
-        f\"<th style='{cell_style}'>IN</th>\"
-        f\"<th style='{cell_style}'>OUT</th>\"
-        f\"</tr>\"
+        f"<table style='{table_style}'>"
+        f"<tr>"
+        f"<th style='{cell_style}'>Employee</th>"
+        f"<th style='{cell_style}'>IN</th>"
+        f"<th style='{cell_style}'>OUT</th>"
+        f"</tr>"
     )
 
     for emp, logs in employee_logs.items():
-        complete_logs_table += f\"<tr><td style='{cell_style}'>{logs['name']}</td>\"
+        complete_logs_table += f"<tr><td style='{cell_style}'>{logs['name']}</td>"
 
         # IN cell
         if logs['IN'] is not None:
-            complete_logs_table += f\"<td style='{cell_style}'>{fmt_time(logs['IN']['time'])}</td>\"
+            complete_logs_table += f"<td style='{cell_style}'>{fmt_time(logs['IN']['time'])}</td>"
         else:
             complete_logs_table += (
-                f\"<td style='{cell_style}'>\"
-                f\"<div style='{miss_style}'>\"
-                f\"<a href='https://erp.craftedgoods.ca/app/employee-checkin/'>Missing</a>\"
-                f\"</div></td>\"
+                f"<td style='{cell_style}'>"
+                f"<div style='{miss_style}'>"
+                f"<a href='https://erp.craftedgoods.ca/app/employee-checkin/'>Missing</a>"
+                f"</div></td>"
             )
 
         # OUT cell:
         #   - real clock-out:        plain time
-        #   - auto-generated OUT:    time + \"Automated Clock Out\" label, highlighted
-        #   - no OUT (and no IN):    \"Missing\" link (we did NOT auto-clock-out
+        #   - auto-generated OUT:    time + "Automated Clock Out" label, highlighted
+        #   - no OUT (and no IN):    "Missing" link (we did NOT auto-clock-out
         #                            because the employee never clocked IN)
         if logs['OUT'] is not None:
             is_auto = logs['OUT'].get('device_id') == AUTO_DEVICE_ID
             time_str = fmt_time(logs['OUT']['time'])
             if is_auto:
                 complete_logs_table += (
-                    f\"<td style='{cell_style}'>\"
-                    f\"<div style='{auto_style}'>\"
-                    f\"<b>{time_str}</b><br>\"
-                    f\"<small>Automated Clock Out</small>\"
-                    f\"</div></td>\"
+                    f"<td style='{cell_style}'>"
+                    f"<div style='{auto_style}'>"
+                    f"<b>{time_str}</b><br>"
+                    f"<small>Automated Clock Out</small>"
+                    f"</div></td>"
                 )
             else:
-                complete_logs_table += f\"<td style='{cell_style}'>{time_str}</td>\"
+                complete_logs_table += f"<td style='{cell_style}'>{time_str}</td>"
         else:
             complete_logs_table += (
-                f\"<td style='{cell_style}'>\"
-                f\"<div style='{miss_style}'>\"
-                f\"<a href='https://erp.craftedgoods.ca/app/employee-checkin/'>Missing</a>\"
-                f\"</div></td>\"
+                f"<td style='{cell_style}'>"
+                f"<div style='{miss_style}'>"
+                f"<a href='https://erp.craftedgoods.ca/app/employee-checkin/'>Missing</a>"
+                f"</div></td>"
             )
 
-        complete_logs_table += \"</tr>\"
+        complete_logs_table += "</tr>"
 
-    complete_logs_table += \"</table>\"
+    complete_logs_table += "</table>"
 
 
     # -----------------------------------------------------------------------------
     # Step 5: Scheduled no-shows (assigned today, no clock-IN)
     # -----------------------------------------------------------------------------
     scheduled_today = frappe.db.get_all(
-        \"Store Schedule\",
+        "Store Schedule",
         filters=[
-            [\"time_in\", \">=\", start_of_day],
-            [\"time_in\", \"<=\", end_of_day],
-            [\"employee\", \"is\", \"set\"],
-            [\"assigned\", \"=\", 1],
+            ["time_in", ">=", start_of_day],
+            ["time_in", "<=", end_of_day],
+            ["employee", "is", "set"],
+            ["assigned", "=", 1],
         ],
-        fields=[\"employee\", \"prefered_name\", \"outlet_name\", \"time_in\", \"employee_email\", \"name\"],
-        order_by=\"time_in\",
+        fields=["employee", "prefered_name", "outlet_name", "time_in", "employee_email", "name"],
+        order_by="time_in",
     )
     scheduled_no_show = []
     seen_emp = set()
     for sh in scheduled_today:
-        emp = sh.get(\"employee\")
+        emp = sh.get("employee")
         if not emp or emp in seen_emp:
             continue
         logs = employee_logs.get(emp)
-        if logs is None or logs.get(\"IN\") is None:
+        if logs is None or logs.get("IN") is None:
             scheduled_no_show.append(sh)
             seen_emp.add(emp)
 
@@ -244,40 +244,40 @@ try:
     # Step 6: Build and send the email
     # -----------------------------------------------------------------------------
     missing_in_employees = [
-        logs[\"name\"] for logs in employee_logs.values() if logs[\"IN\"] is None
+        logs["name"] for logs in employee_logs.values() if logs["IN"] is None
     ]
 
-    subject = \"Daily Clock Entries\"
-    message = \"\"
+    subject = "Daily Clock Entries"
+    message = ""
 
     if auto_clocked_out:
-        message += \"<b>Auto clock-out applied to the following employees:</b><br>\"
+        message += "<b>Auto clock-out applied to the following employees:</b><br>"
         for name, out_time, source in auto_clocked_out:
-            message += f\"&bull; {name} at {fmt_time(out_time)} ({source})<br>\"
+            message += f"&bull; {name} at {fmt_time(out_time)} ({source})<br>"
         message += (
-            \"<br>Review or adjust these entries \"
-            \"<a href='https://erp.craftedgoods.ca/app/employee-checkin/'>here</a>.\"
-            \"<br><br>\"
+            "<br>Review or adjust these entries "
+            "<a href='https://erp.craftedgoods.ca/app/employee-checkin/'>here</a>."
+            "<br><br>"
         )
 
     if scheduled_no_show:
-        message += \"<b>Scheduled today but no clock-IN:</b><br>\"
+        message += "<b>Scheduled today but no clock-IN:</b><br>"
         for sh in scheduled_no_show:
-            display = sh.get(\"prefered_name\") or sh.get(\"employee\")
-            when = fmt_time(sh.get(\"time_in\"))
-            outlet = sh.get(\"outlet_name\") or \"\"
-            message += f\"&bull; {display} — scheduled {when} at {outlet}<br>\"
-        message += \"<br>\"
+            display = sh.get("prefered_name") or sh.get("employee")
+            when = fmt_time(sh.get("time_in"))
+            outlet = sh.get("outlet_name") or ""
+            message += f"&bull; {display} — scheduled {when} at {outlet}<br>"
+        message += "<br>"
 
     if missing_in_employees:
-        message += \"<b>Employees with checkins today but missing a clock-IN row:</b><br>\"
-        message += \"<br>\".join(missing_in_employees)
+        message += "<b>Employees with checkins today but missing a clock-IN row:</b><br>"
+        message += "<br>".join(missing_in_employees)
         message += (
-            \"<br><a href='https://erp.craftedgoods.ca/app/employee-checkin/'>\"
-            \"Fix missing entries here</a><br><br>\"
+            "<br><a href='https://erp.craftedgoods.ca/app/employee-checkin/'>"
+            "Fix missing entries here</a><br><br>"
         )
 
-    message += \"These are the clock entries for today:<br>\"
+    message += "These are the clock entries for today:<br>"
     message += complete_logs_table
 
     frappe.sendmail(

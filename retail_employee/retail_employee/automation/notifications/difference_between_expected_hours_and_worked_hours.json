@@ -24,7 +24,7 @@
   "set_property_after_alert": null,
   "property_value": null,
   "send_to_all_assignees": 1,
-  "message": "<br>Worked Hours: {{ doc.total_ts_hrs}}\r\n<br>Expected Hours: {{ doc.total_expected_hrs }}\r\n<br>{{doc.employee}}\r\n<br>{{doc.employee_name}}\r\n<br>You can see payroll {{ doc.payroll_period }}<a href=\\\"https://erp.craftedgoods.ca/app/crafted-timesheets/TS_{{ doc.payroll_period}}_{{doc.employee}}\\\"> here </a>",
+  "message": "<br>Worked Hours: {{ doc.total_ts_hrs}}\r\n<br>Expected Hours: {{ doc.total_expected_hrs }}\r\n<br>{{doc.employee}}\r\n<br>{{doc.employee_name}}\r\n<br>You can see payroll {{ doc.payroll_period }}<a href=\"https://erp.craftedgoods.ca/app/timesheets/TS_{{ doc.payroll_period}}_{{doc.employee}}\"> here </a>",
   "attach_print": 0,
   "print_format": null,
   "twilio_number": null,
@@ -37,16 +37,18 @@
   "recipients": [
     {
       "name": "1bfe20c07b",
+      "owner": "leo@craftedgoods.ca",
+      "creation": "2024-04-23 16:39:11.094669",
+      "modified": "2026-11-09 18:18:49.887570",
+      "modified_by": "it@nardo.ca",
       "docstatus": 0,
-      "parent": "Difference between Expected Hours and Worked Hours",
-      "parentfield": "recipients",
-      "parenttype": "Notification",
       "idx": 1,
       "receiver_by_document_field": "",
       "receiver_by_role": "HR Manager",
-      "cc": null,
-      "bcc": null,
-      "condition": null
+      "parent": "Difference between Expected Hours and Worked Hours",
+      "parentfield": "recipients",
+      "parenttype": "Notification",
+      "doctype": "Notification Recipient"
     }
   ]
 }

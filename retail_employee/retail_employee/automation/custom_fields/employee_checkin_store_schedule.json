@@ -1,0 +1,19 @@
+{
+  "name": "Employee Checkin-store_schedule",
+  "dt": "Employee Checkin",
+  "module": "CRAFTED",
+  "label": "Store Schedule",
+  "fieldname": "store_schedule",
+  "fieldtype": "Link",
+  "options": "Store Schedule",
+  "default": null,
+  "insert_after": "shift",
+  "read_only": 1,
+  "no_copy": 1,
+  "in_list_view": 0,
+  "in_standard_filter": 1,
+  "search_index": 1,
+  "description": "Scheduled shift this punch belongs to (set automatically).",
+  "reqd": 0,
+  "hidden": 0
+}

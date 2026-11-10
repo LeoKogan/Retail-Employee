@@ -31,17 +31,13 @@ try:
     doc.estimated_total_payable_cost = total_hours_worked * 18 + total_team_commission_payable + total_personal_commission_payable
 except Exception:
     frappe.log_error(
-        title=\"Calculate Employee Commissions Details\",
+        title="Calculate Employee Commissions Details",
         message=frappe.get_traceback()
-        + \"
-
-Doc: \"
-        + str(getattr(doc, \"name\", None))
-        + \"
-total_commissions=\"
-        + str(getattr(doc, \"total_commissions\", None))
-        + \"
-rows=\"
+        + "\n\nDoc: "
+        + str(getattr(doc, "name", None))
+        + "\ntotal_commissions="
+        + str(getattr(doc, "total_commissions", None))
+        + "\nrows="
         + str(len(doc.employee_hours_commissions or [])),
     )
     raise

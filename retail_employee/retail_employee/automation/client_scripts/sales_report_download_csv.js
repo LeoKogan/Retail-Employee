@@ -50,17 +50,15 @@ frappe.ui.form.on('Sales Report', {
             });
 
             // Convert data to CSV format
-            let csvContent = \"data:text/csv;charset=utf-8,\" 
-                + columns.join(\",\") + \"
-\" 
-                + data.map(e => e.join(\",\")).join(\"
-\");
+            let csvContent = "data:text/csv;charset=utf-8," 
+                + columns.join(",") + "\n" 
+                + data.map(e => e.join(",")).join("\n");
 
             // Create a download link and trigger the download
             let encodedUri = encodeURI(csvContent);
-            let link = document.createElement(\"a\");
-            link.setAttribute(\"href\", encodedUri);
-            link.setAttribute(\"download\", frm.doc.name + \".csv\");
+            let link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", frm.doc.name + ".csv");
             document.body.appendChild(link); // Required for FF
             link.click();
             document.body.removeChild(link);

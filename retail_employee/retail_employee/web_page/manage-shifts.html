@@ -14,6 +14,8 @@
     fields=['role'],
     limit_page_length=1) %}
 {% set is_manager = True if (_mgr_roles or frappe.session.user == 'Administrator') else False %}
+{% set _sys_roles = frappe.get_all('Has Role', filters={'parent': frappe.session.user, 'parenttype': 'User', 'role': 'System Manager'}, fields=['role'], limit_page_length=1) %}
+{% set is_sysmgr = True if (_sys_roles or frappe.session.user == 'Administrator') else False %}
 {% set me_emp_rows = frappe.get_all('Employee', filters={'user_id': frappe.session.user}, fields=['name', 'employee'], limit_page_length=1) %}
 {% set me_hr_employee = me_emp_rows[0].name if me_emp_rows else None %}
 {% set me_info = frappe.get_all('Employee Info', filters={'employee_email': frappe.session.user}, fields=['name', 'employee', 'prefered_name'], limit_page_length=1) %}
@@ -21,6 +23,7 @@
 {% set me_prefered = me_info[0].prefered_name if me_info else None %}
 {% set today = frappe.utils.get_datetime() %}
 {% set today_weekday = today.weekday() %}
+{% set today_key = today.strftime('%Y%m%d') %}
 {% set _v = frappe.utils.cint(frappe.form_dict.v or 2) %}
 {% set weeks_view = _v if _v in [1, 2, 4] else 4 %}
 {% set total_of_days_to_show = weeks_view * 7 %}
@@ -66,6 +69,41 @@
 {% set Employee_Schedule = _mine + _open %}
 {% endif %}
 
+{# Clock-ins linked to the shifts on screen (Employee Checkin.store_schedule, added 2026-11-09) #}
+{% set shift_names = [] %}
+{% for sch in Employee_Schedule %}{% if sch.employee %}{% set _ = shift_names.append(sch.name) %}{% endif %}{% endfor %}
+{% set Shift_Punches = frappe.get_all('Employee Checkin', filters={'store_schedule': ['in', shift_names]}, fields=['store_schedule', 'log_type', 'time', 'device_id'], order_by='time asc', limit_page_length=0) if shift_names else [] %}
+{% set punch_in = {} %}
+{% set punch_out = {} %}
+{% set punch_auto = {} %}
+{% set punch_list = {} %}
+{% for p in Shift_Punches %}
+  {% if p.store_schedule not in punch_list %}{% set _ = punch_list.update({p.store_schedule: []}) %}{% endif %}
+  {% set _ = punch_list[p.store_schedule].append([p.log_type, p.time.strftime('%Y-%m-%dT%H:%M:%S'), 1 if p.device_id == 'Automatic Clock Out' else 0]) %}
+  {% if p.log_type == 'IN' and p.store_schedule not in punch_in %}{% set _ = punch_in.update({p.store_schedule: p.time}) %}{% endif %}
+  {% if p.log_type == 'OUT' %}{% set _ = punch_out.update({p.store_schedule: p.time}) %}{% set _ = punch_auto.update({p.store_schedule: (p.device_id == 'Automatic Clock Out')}) %}{% endif %}
+{% endfor %}
+{% set now_dt = frappe.utils.now_datetime() %}
+<style>
+.mgr-clock { display:block; margin-top:2px; font-size:11px; line-height:1.35; }
+.mgr-badge { display:inline-block; padding:0 5px; border-radius:8px; font-size:10px; font-weight:600; color:#fff; margin:1px 2px 0 0; white-space:nowrap; }
+.mgr-badge-ok { background:#2e7d32; }
+.mgr-badge-late { background:#ef6c00; }
+.mgr-badge-early { background:#6a1b9a; }
+.mgr-badge-missing { background:#c62828; }
+.mgr-badge-auto { background:#546e7a; }
+.mgr-modal-card.mgr-readonly .mgr-modal-body { opacity:.6; }
+.mgr-modal-card.mgr-readonly .mgr-modal-body select,
+.mgr-modal-card.mgr-readonly .mgr-modal-body input { background:#eee !important; color:#666 !important; cursor:not-allowed; pointer-events:none; }
+.mgr-worked { margin:10px 0 4px; padding:8px 10px; border:1px solid #ddd; border-radius:8px; background:#fafafa; font-size:13px; }
+.mgr-worked table { width:100%; border-collapse:collapse; }
+.mgr-worked th, .mgr-worked td { text-align:left; padding:3px 4px; border-bottom:1px solid #eee; vertical-align:top; }
+.mgr-worked th { width:34%; color:#555; font-weight:600; }
+.mgr-worked .mgr-diff-pos { color:#2e7d32; font-weight:600; }
+.mgr-worked .mgr-diff-neg { color:#c62828; font-weight:600; }
+.mgr-worked .mgr-punch-list { color:#666; font-size:12px; }
+</style>
+
 {% if is_manager %}
 {% set Employee_Leave = frappe.get_all('Leave Application',
     filters={
@@ -86,9 +124,11 @@
 {% set Employee_Leave = [] %}
 {% endif %}
 
+{# Only Store employees are listed/assignable here. Employee.employee_category (Store/Corp) added 2026-11-09. #}
+{% set hidden_employees = frappe.get_all('Employee', filters={'employee_category': ['!=', 'Store']}, pluck='name') or ['__none__'] %}
 {% if is_manager %}
 {% set Active_Employees = frappe.get_all('Employee Info',
-    filters={'employee_status': 'Active', 'prefered_name': ['not like', 'Test%']},
+    filters={'employee_status': 'Active', 'prefered_name': ['not like', 'Test%'], 'name': ['not in', hidden_employees]},
     fields=['name', 'employee', 'prefered_name', 'employee_email'],
     order_by='prefered_name') %}
 {% elif me_employee %}
@@ -101,14 +141,11 @@
 {% endif %}
 
 {% set Outlets = frappe.get_all('Outlets', fields=['name', 'outlet_name', 'outlet_color'], order_by='name') %}
-{% if frappe.db.exists('DocType', 'Outlet Hours and Hard Target Sales') %}
-{% set Outlet_Hours = frappe.get_all('Outlet Hours and Hard Target Sales', fields=['parent', 'dayoftheweek', 'open_or_close', 'open_time', 'close_time'], limit_page_length=200) %}
-{% else %}
-{% set Outlet_Hours = [] %}
-{% endif %}
+{% set Outlet_Hours = frappe.get_all('Outlet Hours and Hard Target Sales',
+    fields=['parent', 'dayoftheweek', 'open_or_close', 'open_time', 'close_time'],
+    limit_page_length=200) %}
 {% set Store_Roles = frappe.get_all('Store Roles', fields=['name'], order_by='name') %}
 
-{% if frappe.db.exists('DocType', 'Payroll Period') %}
 {% set Payroll_Periods = frappe.get_all('Payroll Period',
     filters={
         'start_date': ['<=', frappe.utils.getdate(last_day_to_Show)],
@@ -117,9 +154,6 @@
     fields=['name', 'start_date', 'end_date'],
     order_by='start_date',
     limit_page_length=50) %}
-{% else %}
-{% set Payroll_Periods = [] %}
-{% endif %}
 {% set payroll_starts = {} %}
 {% set payroll_ends = {} %}
 {% for pp in Payroll_Periods %}
@@ -130,7 +164,7 @@
 {% set unique_employees_dict = {} %}
 {% set unique_outlet_name_dict = {} %}
 
-<div class="mgr-page" data-mgr-mode="{% if is_manager %}manager{% else %}associate{% endif %}" data-me-employee="{{ me_employee or '' }}">
+<div class="mgr-page" data-mgr-mode="{% if is_manager %}manager{% else %}associate{% endif %}" data-me-employee="{{ me_employee or '' }}" data-today="{{ today.strftime('%Y-%m-%d') }}" data-sysmgr="{{ 1 if is_sysmgr else 0 }}">
 <div class="mgr-toolbar">
   <h2>{% if is_manager %}Manage Shifts{% else %}My Shifts{% endif %}</h2>
   <div class="mgr-nav">
@@ -186,7 +220,9 @@
         <div class="mgr-timeline">
         {% for schedule in Employee_Schedule %}
           {% if schedule.time_in and schedule.time_in.strftime('%Y%m%d') == current_date.strftime('%Y%m%d') and schedule.outlet_name == outlet and (is_manager or (not schedule.employee) or (me_employee and schedule.employee == me_employee and schedule.published)) %}
-            <div class="employee-other mgr-shift{% if not schedule.published %} mgr-shift-unpublished{% endif %}{% if me_employee and schedule.employee == me_employee %} mgr-shift-mine{% endif %}"
+            <div class="employee-other mgr-shift{% if not schedule.published %} mgr-shift-unpublished{% endif %}{% if me_employee and schedule.employee == me_employee %} mgr-shift-mine{% endif %}{% if schedule.time_in.strftime('%Y%m%d') < today_key %} mgr-shift-locked{% endif %}"
+                 data-locked="{{ 1 if schedule.time_in.strftime('%Y%m%d') < today_key else 0 }}"
+                 data-punches='{{ (punch_list.get(schedule.name) or []) | tojson }}'
                  data-name="{{ schedule.name }}"
                  data-preferred-name="{{ schedule.prefered_name or '' }}" data-open="{% if schedule.employee %}0{% else %}1{% endif %}"
                  data-employee="{{ schedule.employee or '' }}"
@@ -221,12 +257,32 @@
               {{ schedule.prefered_name or schedule.calendar_text }}<br>
               {{ time_line }}{% if dur_line %}<br><span class="mgr-dur">{{ dur_line }}</span>{% endif %}
               {% endif %}
+              {% if schedule.employee %}
+                {% set p_in = punch_in.get(schedule.name) %}
+                {% set p_out = punch_out.get(schedule.name) %}
+                {% set grace = 300 %}
+                {% set is_late = p_in and (p_in - schedule.time_in).total_seconds() > grace %}
+                {% set is_early = p_out and schedule.time_out and (schedule.time_out - p_out).total_seconds() > grace %}
+                {% set miss_in = (not p_in) and (now_dt - schedule.time_in).total_seconds() > grace %}
+                {% set miss_out = p_in and (not p_out) and schedule.time_out and (now_dt - schedule.time_out).total_seconds() > 1800 %}
+                {% if p_in or p_out or miss_in %}
+                <span class="mgr-clock" data-clock-in="{{ p_in.strftime('%Y-%m-%dT%H:%M') if p_in else '' }}" data-clock-out="{{ p_out.strftime('%Y-%m-%dT%H:%M') if p_out else '' }}">
+                  In {{ p_in.strftime('%H:%M') if p_in else '--:--' }} &middot; Out {{ p_out.strftime('%H:%M') if p_out else '--:--' }}<br>
+                  {% if miss_in %}<span class="mgr-badge mgr-badge-missing" title="No clock-in linked to this shift">Missing in</span>{% endif %}
+                  {% if is_late %}<span class="mgr-badge mgr-badge-late" title="Clocked in {{ ((p_in - schedule.time_in).total_seconds() / 60)|round|int }} min after start">Late</span>{% endif %}
+                  {% if is_early %}<span class="mgr-badge mgr-badge-early" title="Clocked out {{ ((schedule.time_out - p_out).total_seconds() / 60)|round|int }} min before end">Early out</span>{% endif %}
+                  {% if miss_out %}<span class="mgr-badge mgr-badge-missing" title="No clock-out linked to this shift">Missing out</span>{% endif %}
+                  {% if p_out and punch_auto.get(schedule.name) %}<span class="mgr-badge mgr-badge-auto" title="Clocked out automatically at shift end">Auto out</span>{% endif %}
+                  {% if p_in and not is_late and not is_early and not miss_out %}<span class="mgr-badge mgr-badge-ok">On time</span>{% endif %}
+                </span>
+                {% endif %}
+              {% endif %}
               {% if not schedule.published %}<br><em>unpublished</em>{% endif %}
             </div>
           {% endif %}
         {% endfor %}
         </div>
-        {% if is_manager %}<button type="button" class="mgr-day-add" data-date="{{ current_date.strftime('%Y-%m-%d') }}" data-outlet="{{ outlet }}" title="Add shift at {{ outlet }}">+</button>{% endif %}
+        {% if is_manager and (is_sysmgr or dkey >= today_key) %}<button type="button" class="mgr-day-add" data-date="{{ current_date.strftime('%Y-%m-%d') }}" data-outlet="{{ outlet }}" title="Add shift at {{ outlet }}">+</button>{% endif %}
       </div>
     {% endfor %}
     </div>
@@ -277,7 +333,7 @@
 {% endfor %}
 {% for schedule in Employee_Schedule %}
   {% set employee_name = schedule.prefered_name %}
-  {% if employee_name and employee_name not in unique_employees_dict %}
+  {% if employee_name and employee_name not in unique_employees_dict and schedule.employee not in hidden_employees %}
     {% set _dummy = unique_employees_dict.update({employee_name: true}) %}
     <label>
       <input type="checkbox" class="filterEmployee" value="{{ employee_name }}" checked>{{ employee_name }}
@@ -360,6 +416,8 @@
       </div>
       <label class="mgr-check"><input type="checkbox" id="f-published" checked> Published (visible on My Shifts)</label>
     </div>
+    <div id="mgrWorked" class="mgr-worked" hidden></div>
+    <p id="mgrLockNote" class="mgr-lock-note" hidden>Past shift: view only. It can't be edited or deleted here.</p>
     <p id="mgrMsg" class="mgr-msg"></p>
     <div class="mgr-modal-actions">
       <button type="button" class="mgr-btn danger" id="btnDelete" hidden>Delete</button>
