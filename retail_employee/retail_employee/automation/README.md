@@ -26,3 +26,7 @@
   testing site (never prod): `bench set-config -g server_script_enabled 1`, copy `server_scripts/<slug>.json`
   into the container and run `install_local_server_scripts.install` (see its docstring). Links in the scripts
   point at erp.craftedgoods.ca.
+
+## Custom Fields
+- `custom_fields/employee_checkin_store_schedule.json`: read-only Link `Employee Checkin.store_schedule` -> `Store Schedule`,
+  set on insert by the Server Script "Employee Checkin Use Server Time" (added 2026-11-09; 4,433 past punches backfilled).

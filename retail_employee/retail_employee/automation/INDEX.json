@@ -254,5 +254,12 @@
       "title": "Sales Goals",
       "file": "sales-goals.json"
     }
+  ],
+  "custom_fields": [
+    {
+      "file": "employee_checkin_store_schedule.json",
+      "name": "Employee Checkin-store_schedule",
+      "dt": "Employee Checkin"
+    }
   ]
 }

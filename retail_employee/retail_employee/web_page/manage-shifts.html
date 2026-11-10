@@ -69,6 +69,28 @@
 {% set Employee_Schedule = _mine + _open %}
 {% endif %}
 
+{# Clock-ins linked to the shifts on screen (Employee Checkin.store_schedule, added 2026-11-09) #}
+{% set shift_names = [] %}
+{% for sch in Employee_Schedule %}{% if sch.employee %}{% set _ = shift_names.append(sch.name) %}{% endif %}{% endfor %}
+{% set Shift_Punches = frappe.get_all('Employee Checkin', filters={'store_schedule': ['in', shift_names]}, fields=['store_schedule', 'log_type', 'time', 'device_id'], order_by='time asc', limit_page_length=0) if shift_names else [] %}
+{% set punch_in = {} %}
+{% set punch_out = {} %}
+{% set punch_auto = {} %}
+{% for p in Shift_Punches %}
+  {% if p.log_type == 'IN' and p.store_schedule not in punch_in %}{% set _ = punch_in.update({p.store_schedule: p.time}) %}{% endif %}
+  {% if p.log_type == 'OUT' %}{% set _ = punch_out.update({p.store_schedule: p.time}) %}{% set _ = punch_auto.update({p.store_schedule: (p.device_id == 'Automatic Clock Out')}) %}{% endif %}
+{% endfor %}
+{% set now_dt = frappe.utils.now_datetime() %}
+<style>
+.mgr-clock { display:block; margin-top:2px; font-size:11px; line-height:1.35; }
+.mgr-badge { display:inline-block; padding:0 5px; border-radius:8px; font-size:10px; font-weight:600; color:#fff; margin:1px 2px 0 0; white-space:nowrap; }
+.mgr-badge-ok { background:#2e7d32; }
+.mgr-badge-late { background:#ef6c00; }
+.mgr-badge-early { background:#6a1b9a; }
+.mgr-badge-missing { background:#c62828; }
+.mgr-badge-auto { background:#546e7a; }
+</style>
+
 {% if is_manager %}
 {% set Employee_Leave = frappe.get_all('Leave Application',
     filters={
@@ -218,6 +240,26 @@
               {% else %}
               {{ schedule.prefered_name or schedule.calendar_text }}<br>
               {{ time_line }}{% if dur_line %}<br><span class="mgr-dur">{{ dur_line }}</span>{% endif %}
+              {% endif %}
+              {% if schedule.employee %}
+                {% set p_in = punch_in.get(schedule.name) %}
+                {% set p_out = punch_out.get(schedule.name) %}
+                {% set grace = 300 %}
+                {% set is_late = p_in and (p_in - schedule.time_in).total_seconds() > grace %}
+                {% set is_early = p_out and schedule.time_out and (schedule.time_out - p_out).total_seconds() > grace %}
+                {% set miss_in = (not p_in) and (now_dt - schedule.time_in).total_seconds() > grace %}
+                {% set miss_out = p_in and (not p_out) and schedule.time_out and (now_dt - schedule.time_out).total_seconds() > 1800 %}
+                {% if p_in or p_out or miss_in %}
+                <span class="mgr-clock" data-clock-in="{{ p_in.strftime('%Y-%m-%dT%H:%M') if p_in else '' }}" data-clock-out="{{ p_out.strftime('%Y-%m-%dT%H:%M') if p_out else '' }}">
+                  In {{ p_in.strftime('%H:%M') if p_in else '--:--' }} &middot; Out {{ p_out.strftime('%H:%M') if p_out else '--:--' }}<br>
+                  {% if miss_in %}<span class="mgr-badge mgr-badge-missing" title="No clock-in linked to this shift">Missing in</span>{% endif %}
+                  {% if is_late %}<span class="mgr-badge mgr-badge-late" title="Clocked in {{ ((p_in - schedule.time_in).total_seconds() / 60)|round|int }} min after start">Late</span>{% endif %}
+                  {% if is_early %}<span class="mgr-badge mgr-badge-early" title="Clocked out {{ ((schedule.time_out - p_out).total_seconds() / 60)|round|int }} min before end">Early out</span>{% endif %}
+                  {% if miss_out %}<span class="mgr-badge mgr-badge-missing" title="No clock-out linked to this shift">Missing out</span>{% endif %}
+                  {% if p_out and punch_auto.get(schedule.name) %}<span class="mgr-badge mgr-badge-auto" title="Clocked out automatically at shift end">Auto out</span>{% endif %}
+                  {% if p_in and not is_late and not is_early and not miss_out %}<span class="mgr-badge mgr-badge-ok">On time</span>{% endif %}
+                </span>
+                {% endif %}
               {% endif %}
               {% if not schedule.published %}<br><em>unpublished</em>{% endif %}
             </div>
