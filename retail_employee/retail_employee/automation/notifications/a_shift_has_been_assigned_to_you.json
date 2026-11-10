@@ -24,7 +24,7 @@
   "set_property_after_alert": "",
   "property_value": null,
   "send_to_all_assignees": 1,
-  "message": "A shift has been assigned to You\n{{ doc.calendar_text }} from {{ doc.time_in }} to {{ doc.time_out }}\nYou can check your<a href=\\\"https://erp.craftedgoods.ca/app/crafted-store-schedule/view/calendar/CRAFTED%20Store%20Schedule\\\"> complete schedule in here </a>.\nIf you have questions or concerns please contact you Manager.",
+  "message": "A shift has been assigned to You\n{{ doc.calendar_text }} from {{ doc.time_in }} to {{ doc.time_out }}\nYou can check your<a href=\"https://erp.craftedgoods.ca/app/store-schedule/view/calendar/Store%20Schedule\"> complete schedule in here </a>.\nIf you have questions or concerns please contact you Manager.",
   "attach_print": 0,
   "print_format": null,
   "twilio_number": null,
@@ -37,16 +37,18 @@
   "recipients": [
     {
       "name": "f20ede4ae2",
+      "owner": "leo@craftedgoods.ca",
+      "creation": "2023-02-23 16:45:49.360135",
+      "modified": "2026-11-09 18:18:48.350180",
+      "modified_by": "it@nardo.ca",
       "docstatus": 0,
+      "idx": 1,
+      "receiver_by_document_field": "employee_email",
+      "condition": "",
       "parent": "A shift has been assigned to you",
       "parentfield": "recipients",
       "parenttype": "Notification",
-      "idx": 1,
-      "receiver_by_document_field": "employee_email",
-      "receiver_by_role": null,
-      "cc": null,
-      "bcc": null,
-      "condition": ""
+      "doctype": "Notification Recipient"
     }
   ]
 }

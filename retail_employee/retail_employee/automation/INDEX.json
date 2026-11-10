@@ -71,10 +71,17 @@
       "script_type": "DocType Event"
     },
     {
+      "slug": "employee_checkin_use_server_time",
+      "name": "Employee Checkin Use Server Time",
+      "reference_doctype": "Employee Checkin",
+      "doctype_event": "Before Insert",
+      "script_type": "DocType Event"
+    },
+    {
       "slug": "employee_clock_in_out_notification",
       "name": "Employee Clock In-Out Notification",
       "reference_doctype": "Employee Checkin",
-      "doctype_event": "After Save",
+      "doctype_event": "After Insert",
       "script_type": "DocType Event"
     },
     {
@@ -93,14 +100,28 @@
     },
     {
       "slug": "sales_commissions_hourly_calculation",
-      "name": "Sales Commissions Hourly Calculation",
+      "name": "CRAFTED Sales Commissions Hourly Calculation",
       "reference_doctype": "About Us Settings",
       "doctype_event": "Before Insert",
       "script_type": "Scheduler Event"
     },
     {
+      "slug": "store_schedule_lock_past_shifts_delete",
+      "name": "Store Schedule Lock Past Shifts (Delete)",
+      "reference_doctype": "Store Schedule",
+      "doctype_event": "Before Delete",
+      "script_type": "DocType Event"
+    },
+    {
+      "slug": "store_schedule_lock_past_shifts_save",
+      "name": "Store Schedule Lock Past Shifts (Save)",
+      "reference_doctype": "Store Schedule",
+      "doctype_event": "Before Save",
+      "script_type": "DocType Event"
+    },
+    {
       "slug": "summarize_sales_commissions",
-      "name": "Summarize Sales Commissions",
+      "name": "Summarize CRAFTED Sales Commissions",
       "reference_doctype": "Sales Report",
       "doctype_event": "Before Save",
       "script_type": "DocType Event"
@@ -117,6 +138,13 @@
       "name": "Update Employee Status",
       "reference_doctype": "Employee",
       "doctype_event": "After Save",
+      "script_type": "DocType Event"
+    },
+    {
+      "slug": "update_sales_commissions_on_timesheet_submit",
+      "name": "Update CRAFTED Sales Commissions on Timesheet Submit",
+      "reference_doctype": "Timesheets",
+      "doctype_event": "After Submit",
       "script_type": "DocType Event"
     },
     {
@@ -183,17 +211,17 @@
     "CRAFTED Rooster Schedule": "Rooster Schedule",
     "CRAFTED Shift Assignment": "Store Shift Assignment",
     "CRAFTED Shift Type": "Store Shift Type",
-    "CRAFTED Store Schedule": "Store Schedule",
-    "CRAFTED Employee Info": "Employee Info",
-    "CRAFTED Register Closure Payments": "Register Closure Payments",
-    "CRAFTED Register Closure": "Register Closure",
-    "CRAFTED Employee Commissions Details": "Employee Commissions Details",
-    "CRAFTED Sales Commissions": "Sales Commissions",
-    "CRAFTED Sales Targets": "Sales Targets",
-    "CRAFTED Store Roles": "Store Roles",
-    "CRAFTED Sales Report": "Sales Report",
-    "CRAFTED Timesheets": "Timesheets",
-    "CRAFTED Timesheet Detail": "Timesheet Detail"
+    "Store Schedule": "Store Schedule",
+    "Employee Info": "Employee Info",
+    "Register Closure Payments": "Register Closure Payments",
+    "Register Closure": "Register Closure",
+    "Employee Commissions Details": "Employee Commissions Details",
+    "Sales Commissions": "Sales Commissions",
+    "Sales Targets": "Sales Targets",
+    "Store Roles": "Store Roles",
+    "Sales Report": "Sales Report",
+    "Timesheets": "Timesheets",
+    "Timesheets Detail": "Timesheet Detail"
   },
   "web_pages": [
     {

@@ -1,0 +1,21 @@
+{
+  "name": "Store Schedule Lock Past Shifts (Delete)",
+  "docstatus": 0,
+  "parent": null,
+  "parentfield": null,
+  "parenttype": null,
+  "idx": 0,
+  "script_type": "DocType Event",
+  "reference_doctype": "Store Schedule",
+  "event_frequency": "All",
+  "doctype_event": "Before Delete",
+  "api_method": null,
+  "allow_guest": 0,
+  "disabled": 0,
+  "script": "# Store Schedule Lock Past Shifts (Delete)  -- DocType Event: Before Delete\n# Approved by Leo 2026-11-09. Shifts whose Alberta date is before today can't be deleted,\n# except by a System Manager. Doctype name kept in one place for the Nov 10 rename.\nSCHEDULE_DT = \"Store Schedule\"\nLOCK_MSG = \"Past shifts are locked. Ask a System Manager.\"\n\n# frappe.get_roles() isn't available to Server Scripts here, so read Has Role directly.\nis_system_manager = frappe.session.user == \"Administrator\" or bool(frappe.db.exists(\n    \"Has Role\", {\"parent\": frappe.session.user, \"parenttype\": \"User\", \"role\": \"System Manager\"}))\n\nif not is_system_manager:\n    today = frappe.utils.getdate(frappe.utils.nowdate())\n    orig_time_in = frappe.db.get_value(SCHEDULE_DT, doc.name, \"time_in\") or doc.time_in\n    if orig_time_in and frappe.utils.getdate(orig_time_in) < today:\n        frappe.throw(LOCK_MSG, title=\"Shift locked\")\n",
+  "cron_format": null,
+  "module": null,
+  "enable_rate_limit": 0,
+  "rate_limit_count": 5,
+  "rate_limit_seconds": 86400
+}

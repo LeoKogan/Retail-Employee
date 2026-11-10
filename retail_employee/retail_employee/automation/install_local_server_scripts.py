@@ -1,7 +1,7 @@
 """Upsert the local Server Script variants into a testing site (never run on production).
 
 Copy into the bench (e.g. apps/frappe/frappe/_tmp_install.py) and run:
-  bench --site crafted.localhost execute frappe._tmp_install.install --kwargs "{'path': '/tmp/server_scripts_local'}"
+  bench --site crafted.localhost execute frappe._tmp_install.install --kwargs "{'path': '/tmp/server_scripts'}"
 Requires server_script_enabled=1 in common_site_config.json (bench set-config -g server_script_enabled 1).
 """
 import json, os

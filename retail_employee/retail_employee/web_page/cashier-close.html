@@ -1,63 +1,84 @@
-    <h3>Cashier Close</h3>
-    <h3>Total Cash: $<span id="totalAmount">0.00</span></h3>
-    <button onclick="copyToClipboard()">Copy to Clipboard</button>
+<div class="sg-page cc-page">
+  <div class="sg-toolbar">
+    <div>
+      <h2>Cash Counting</h2>
+      <div class="sg-sub">Count bills and coins, then copy the total for register close.</div>
+    </div>
+    <div class="cc-total-pill">
+      Total <strong>$<span id="totalAmount">0.00</span></strong>
+    </div>
+  </div>
 
-    <form id="cashierForm">
-        <table class="center" id="money"><!-- For Bills -->
-            <tr>
-                <th colspan="2">Bills:</th>
-                <th></th>
-                <th colspan="2">Coins:</th>
-            </tr>
-            <tr>
-                <td>$100:</td>
-                <td><input type="number" id="hundred" min="0" oninput="calculateTotal()" value="0"></td>
-                <td class="empty"></td>
-                <td>Twoonie ($2):</td>
-                <td>
-                    <input type="number" id="Twoonies" min="0" oninput="calculateTotal()" value="0" onblur="checkCoinValue(this)" />
-                </td>
-            </tr>
-            <tr>
-                <td>$50:</td>
-                <td><input type="number" id="fifty" min="0" oninput="calculateTotal()" value="0"></td>
-                <td class="empty"></td>
-                <td>Loonies ($1):</td>
-                <td>
-                    <input type="number" id="Loonies" min="0" oninput="calculateTotal()" value="0" onblur="checkCoinValue(this)" />
-                </td>
-            </tr>
-            <tr>
-                <td>$20:</td>
-                <td><input type="number" id="twenty" min="0" oninput="calculateTotal()" value="0"></td>
-                <td class="empty"></td>
-                <td>Quarters (25¢):</td>
-                <td>
-                    <input type="number" id="Quarters" min="0" oninput="calculateTotal()" value="0" onblur="checkCoinValue(this)" />
-                </td>
-            </tr>
-            <tr>
-                <td>$10:</td>
-                <td><input type="number" id="ten" min="0" oninput="calculateTotal()" value="0"></td>
-                <td class="empty"></td>
-                <td>Dimes (10¢):</td>
-                <td>
-                    <input type="number" id="Dimes" min="0" oninput="calculateTotal()" value="0" onblur="checkCoinValue(this)" />
-                </td>
-            </tr>
-            <tr>
-                <td>$5:</td>
-                <td><input type="number" id="five" min="0" oninput="calculateTotal()" value="0"></td>
-                <td class="empty"></td>
-                <td>Nickels (5¢):</td>
-                <td>
-                    <input type="number" id="Nickels" min="0" oninput="calculateTotal()" value="0" onblur="checkCoinValue(this)" />
-                </td>
-            </tr>
-            <tr>
-                <td colspan="5">
-                    <div id="CoinsMessage" class="coin-message"></div>
-                </td>
-            </tr>
-        </table>
+  <section class="sg-section">
+    <div class="cc-actions">
+      <button type="button" class="sg-btn cc-btn" onclick="copyToClipboard()">Copy total to clipboard</button>
+      <button type="button" class="cc-btn-secondary" onclick="resetCashierForm()">Reset</button>
+    </div>
+
+    <form id="cashierForm" onsubmit="return false;">
+      <div class="cc-grid">
+        <div class="sg-table-wrap">
+          <table class="sg-table cc-table" id="money-bills">
+            <thead>
+              <tr><th colspan="2">Bills</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="cc-label">$100</td>
+                <td><input class="cc-input" type="number" id="hundred" min="0" step="1" value="0" oninput="calculateTotal()"></td>
+              </tr>
+              <tr>
+                <td class="cc-label">$50</td>
+                <td><input class="cc-input" type="number" id="fifty" min="0" step="1" value="0" oninput="calculateTotal()"></td>
+              </tr>
+              <tr>
+                <td class="cc-label">$20</td>
+                <td><input class="cc-input" type="number" id="twenty" min="0" step="1" value="0" oninput="calculateTotal()"></td>
+              </tr>
+              <tr>
+                <td class="cc-label">$10</td>
+                <td><input class="cc-input" type="number" id="ten" min="0" step="1" value="0" oninput="calculateTotal()"></td>
+              </tr>
+              <tr>
+                <td class="cc-label">$5</td>
+                <td><input class="cc-input" type="number" id="five" min="0" step="1" value="0" oninput="calculateTotal()"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="sg-table-wrap">
+          <table class="sg-table cc-table" id="money-coins">
+            <thead>
+              <tr><th colspan="2">Coins</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="cc-label">Twoonie ($2)</td>
+                <td><input class="cc-input" type="number" id="Twoonies" min="0" step="1" value="0" oninput="calculateTotal()" onblur="checkCoinValue()"></td>
+              </tr>
+              <tr>
+                <td class="cc-label">Loonie ($1)</td>
+                <td><input class="cc-input" type="number" id="Loonies" min="0" step="1" value="0" oninput="calculateTotal()" onblur="checkCoinValue()"></td>
+              </tr>
+              <tr>
+                <td class="cc-label">Quarters (25¢)</td>
+                <td><input class="cc-input" type="number" id="Quarters" min="0" step="1" value="0" oninput="calculateTotal()" onblur="checkCoinValue()"></td>
+              </tr>
+              <tr>
+                <td class="cc-label">Dimes (10¢)</td>
+                <td><input class="cc-input" type="number" id="Dimes" min="0" step="1" value="0" oninput="calculateTotal()" onblur="checkCoinValue()"></td>
+              </tr>
+              <tr>
+                <td class="cc-label">Nickels (5¢)</td>
+                <td><input class="cc-input" type="number" id="Nickels" min="0" step="1" value="0" oninput="calculateTotal()" onblur="checkCoinValue()"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="CoinsMessage" class="cc-coin-message" role="status"></div>
     </form>
+  </section>
+</div>

@@ -5,7 +5,7 @@ start_of_day = frappe.utils.add_to_date(today, hours=0, minutes=0, seconds=0, as
 end_of_day = frappe.utils.add_to_date(today, hours=23, minutes=59, seconds=59, as_datetime=True)
 
 Employee_Info = frappe.db.get_all('Employee Info', 
-    filters={'employee_status':['=', \"Active\"]},
+    filters={'employee_status':['=', "Active"]},
     fields=['employee','employee_status','prefered_name']
 )
 
@@ -22,14 +22,14 @@ Employee_Timesheets = frappe.db.get_all('Timesheets',
 
 Total_Commissionable_Amount = round(sum(frappe.get_all('Sales Targets', 
     filters={'Payroll_Period': ['=', Payroll_Period]},
-    fields=[\"commissionable_amount\"],
+    fields=["commissionable_amount"],
     pluck='commissionable_amount'
 )), 2)
     
 Period_Worked_hours = round(sum(
-    frappe.get_all(\"Timesheet Detail\", 
-        fields=[\"hours\"], 
-        filters=[[\"parent\", \"in\", Employee_Timesheets],['role','=','Sales Associate']],
+    frappe.get_all("Timesheets Detail", 
+        fields=["hours"], 
+        filters=[["parent", "in", Employee_Timesheets],['role','=','Sales Associate']],
         pluck='hours')
 ), 2)
     
@@ -69,9 +69,9 @@ for employee, total_sales in total_sales_by_employee.items():
             fields=['name'],
             pluck='name'
         )[0]
-        employee_worked_hours = round(sum(frappe.get_all(\"Timesheet Detail\", 
-            fields=[\"hours\"], 
-            filters=[[\"parent\", \"=\", Employee_Timesheet],['role','=','Sales Associate']],
+        employee_worked_hours = round(sum(frappe.get_all("Timesheets Detail", 
+            fields=["hours"], 
+            filters=[["parent", "=", Employee_Timesheet],['role','=','Sales Associate']],
             pluck='hours')), 2)
         
         # Calculate average sales per hour

@@ -14,9 +14,9 @@ day_end = frappe.utils.add_to_date(current_date, hours=23, minutes=59, seconds=5
 # Calculate the lower time limit for fetching shifts that ended recently
 shift_end_check_limit = frappe.utils.add_to_date(current_datetime, minutes=-shift_time_check_window)
 
-# Fetch recent shifts from the 'CRAFTED Store Schedule' table
+# Fetch recent shifts from the 'Store Schedule' table
 recent_shifts = frappe.db.get_all(
-    'CRAFTED Store Schedule',
+    'Store Schedule',
     filters=[['time_out', '>=', shift_end_check_limit], ['time_out', '<', current_datetime]],
     fields=['name', 'employee', 'time_in', 'time_out', 'outlet_name', 'prefered_name'],
     order_by='time_out'
@@ -88,7 +88,7 @@ for shift in recent_shifts:
                 <b>Automatic Clock-Out time:</b> {t_auto}</p>
                 <p>No clock-out was found {clock_out_grace_period} minutes (grace period) after the shift end, so an OUT was
                 recorded at the scheduled end time. Please confirm the actual end time with the employee and correct the checkin if needed.</p>
-                <p>Schedule: <a href='https://erp.craftedgoods.ca/app/crafted-store-schedule/{shift['name']}'>{shift['name']}</a></p>
+                <p>Schedule: <a href='https://erp.craftedgoods.ca/app/store-schedule/{shift['name']}'>{shift['name']}</a></p>
             """
             )
         except Exception:

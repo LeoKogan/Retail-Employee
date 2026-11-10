@@ -37,17 +37,20 @@
   "recipients": [
     {
       "name": "d7132f031a",
+      "owner": "leo@craftedgoods.ca",
+      "creation": "2023-10-04 14:17:12.727214",
+      "modified": "2026-09-10 15:01:40.498973",
+      "modified_by": "it@nardo.ca",
       "docstatus": 0,
-      "parent": "Employee Clock Punch",
-      "parentfield": "recipients",
-      "parenttype": "Notification",
       "idx": 1,
       "receiver_by_document_field": "owner",
       "receiver_by_role": "",
-      "cc": null,
-      "bcc": null,
-      "condition": ""
+      "condition": "",
+      "parent": "Employee Clock Punch",
+      "parentfield": "recipients",
+      "parenttype": "Notification",
+      "doctype": "Notification Recipient"
     }
   ],
-  "_note": "Disabled: SMS via events.employee_checkin.after_insert / automation server script"
+  "_note": null
 }

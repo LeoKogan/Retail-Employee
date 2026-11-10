@@ -1,0 +1,21 @@
+{
+  "name": "Store Schedule Lock Past Shifts (Save)",
+  "docstatus": 0,
+  "parent": null,
+  "parentfield": null,
+  "parenttype": null,
+  "idx": 0,
+  "script_type": "DocType Event",
+  "reference_doctype": "Store Schedule",
+  "event_frequency": "All",
+  "doctype_event": "Before Save",
+  "api_method": null,
+  "allow_guest": 0,
+  "disabled": 0,
+  "script": "# Store Schedule Lock Past Shifts (Save)  -- DocType Event: Before Save\n# Approved by Leo 2026-11-09. Shifts whose Alberta date (system TZ America/Edmonton) is before\n# today are locked: they can't be edited, and new shifts can't be created/moved into the past.\n# Only System Manager may bypass. Doctype name kept in one place for the Nov 10 rename.\nSCHEDULE_DT = \"Store Schedule\"\nLOCK_MSG = \"Past shifts are locked. Ask a System Manager.\"\n\n# frappe.get_roles() isn't available to Server Scripts here, so read Has Role directly.\nis_system_manager = frappe.session.user == \"Administrator\" or bool(frappe.db.exists(\n    \"Has Role\", {\"parent\": frappe.session.user, \"parenttype\": \"User\", \"role\": \"System Manager\"}))\n\nif not is_system_manager:\n    today = frappe.utils.getdate(frappe.utils.nowdate())\n    if not doc.is_new():\n        orig_time_in = frappe.db.get_value(SCHEDULE_DT, doc.name, \"time_in\")\n        if orig_time_in and frappe.utils.getdate(orig_time_in) < today:\n            frappe.throw(LOCK_MSG, title=\"Shift locked\")\n    if doc.time_in and frappe.utils.getdate(doc.time_in) < today:\n        if doc.is_new():\n            frappe.throw(\"You can't create a shift on a past date. \" + LOCK_MSG, title=\"Shift locked\")\n        frappe.throw(\"You can't move a shift to a past date. \" + LOCK_MSG, title=\"Shift locked\")\n",
+  "cron_format": null,
+  "module": null,
+  "enable_rate_limit": 0,
+  "rate_limit_count": 5,
+  "rate_limit_seconds": 86400
+}

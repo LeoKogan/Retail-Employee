@@ -40,7 +40,7 @@ try:
                 "email_content": message,
                 "for_user": user,
                 "type": "Alert",
-                "document_type": "CRAFTED Store Schedule",
+                "document_type": "Store Schedule",
             }).insert(ignore_permissions=True)
         except Exception:
             frappe.log_error(title="Missed Clock In: Notification Log failed", message=frappe.get_traceback())
@@ -73,7 +73,7 @@ try:
     )
 
     shifts_in = frappe.db.get_all(
-        "CRAFTED Store Schedule",
+        "Store Schedule",
         filters=[
             ["time_in", ">=", window_start],
             ["time_in", "<=", window_end],
@@ -110,7 +110,7 @@ try:
         shop_msg = (
             "<p><b>{0}</b> was scheduled to start at <b>{1}</b> at <b>{2}</b> "
             "and has not clocked in.</p>"
-            "<p>Schedule: <a href='https://erp.craftedgoods.ca/app/crafted-store-schedule/{3}'>{3}</a><br>"
+            "<p>Schedule: <a href='https://erp.craftedgoods.ca/app/store-schedule/{3}'>{3}</a><br>"
             "Checkins: <a href='https://erp.craftedgoods.ca/app/employee-checkin?employee={4}'>open</a></p>"
         ).format(display, when, outlet, shift.get("name"), emp)
         emp_msg = (
