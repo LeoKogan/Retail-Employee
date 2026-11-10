@@ -30,3 +30,5 @@
 ## Custom Fields
 - `custom_fields/employee_checkin_store_schedule.json`: read-only Link `Employee Checkin.store_schedule` -> `Store Schedule`,
   set on insert by the Server Script "Employee Checkin Use Server Time" (added 2026-11-09; 4,433 past punches backfilled).
+- `custom_fields/employee_employee_category.json`: Select `Employee.employee_category` (Store/Corp, default Store).
+  manage-shifts lists and assigns only Store employees; Corp = office/admin/bot accounts.

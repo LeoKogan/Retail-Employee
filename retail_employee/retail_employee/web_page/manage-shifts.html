@@ -76,7 +76,10 @@
 {% set punch_in = {} %}
 {% set punch_out = {} %}
 {% set punch_auto = {} %}
+{% set punch_list = {} %}
 {% for p in Shift_Punches %}
+  {% if p.store_schedule not in punch_list %}{% set _ = punch_list.update({p.store_schedule: []}) %}{% endif %}
+  {% set _ = punch_list[p.store_schedule].append([p.log_type, p.time.strftime('%Y-%m-%dT%H:%M:%S'), 1 if p.device_id == 'Automatic Clock Out' else 0]) %}
   {% if p.log_type == 'IN' and p.store_schedule not in punch_in %}{% set _ = punch_in.update({p.store_schedule: p.time}) %}{% endif %}
   {% if p.log_type == 'OUT' %}{% set _ = punch_out.update({p.store_schedule: p.time}) %}{% set _ = punch_auto.update({p.store_schedule: (p.device_id == 'Automatic Clock Out')}) %}{% endif %}
 {% endfor %}
@@ -89,6 +92,16 @@
 .mgr-badge-early { background:#6a1b9a; }
 .mgr-badge-missing { background:#c62828; }
 .mgr-badge-auto { background:#546e7a; }
+.mgr-modal-card.mgr-readonly .mgr-modal-body { opacity:.6; }
+.mgr-modal-card.mgr-readonly .mgr-modal-body select,
+.mgr-modal-card.mgr-readonly .mgr-modal-body input { background:#eee !important; color:#666 !important; cursor:not-allowed; pointer-events:none; }
+.mgr-worked { margin:10px 0 4px; padding:8px 10px; border:1px solid #ddd; border-radius:8px; background:#fafafa; font-size:13px; }
+.mgr-worked table { width:100%; border-collapse:collapse; }
+.mgr-worked th, .mgr-worked td { text-align:left; padding:3px 4px; border-bottom:1px solid #eee; vertical-align:top; }
+.mgr-worked th { width:34%; color:#555; font-weight:600; }
+.mgr-worked .mgr-diff-pos { color:#2e7d32; font-weight:600; }
+.mgr-worked .mgr-diff-neg { color:#c62828; font-weight:600; }
+.mgr-worked .mgr-punch-list { color:#666; font-size:12px; }
 </style>
 
 {% if is_manager %}
@@ -111,9 +124,11 @@
 {% set Employee_Leave = [] %}
 {% endif %}
 
+{# Only Store employees are listed/assignable here. Employee.employee_category (Store/Corp) added 2026-11-09. #}
+{% set hidden_employees = frappe.get_all('Employee', filters={'employee_category': ['!=', 'Store']}, pluck='name') or ['__none__'] %}
 {% if is_manager %}
 {% set Active_Employees = frappe.get_all('Employee Info',
-    filters={'employee_status': 'Active', 'prefered_name': ['not like', 'Test%']},
+    filters={'employee_status': 'Active', 'prefered_name': ['not like', 'Test%'], 'name': ['not in', hidden_employees]},
     fields=['name', 'employee', 'prefered_name', 'employee_email'],
     order_by='prefered_name') %}
 {% elif me_employee %}
@@ -205,8 +220,9 @@
         <div class="mgr-timeline">
         {% for schedule in Employee_Schedule %}
           {% if schedule.time_in and schedule.time_in.strftime('%Y%m%d') == current_date.strftime('%Y%m%d') and schedule.outlet_name == outlet and (is_manager or (not schedule.employee) or (me_employee and schedule.employee == me_employee and schedule.published)) %}
-            <div class="employee-other mgr-shift{% if not schedule.published %} mgr-shift-unpublished{% endif %}{% if me_employee and schedule.employee == me_employee %} mgr-shift-mine{% endif %}{% if schedule.time_in.strftime('%Y%m%d') < today_key and not is_sysmgr %} mgr-shift-locked{% endif %}"
-                 data-locked="{{ 1 if (schedule.time_in.strftime('%Y%m%d') < today_key and not is_sysmgr) else 0 }}"
+            <div class="employee-other mgr-shift{% if not schedule.published %} mgr-shift-unpublished{% endif %}{% if me_employee and schedule.employee == me_employee %} mgr-shift-mine{% endif %}{% if schedule.time_in.strftime('%Y%m%d') < today_key %} mgr-shift-locked{% endif %}"
+                 data-locked="{{ 1 if schedule.time_in.strftime('%Y%m%d') < today_key else 0 }}"
+                 data-punches='{{ (punch_list.get(schedule.name) or []) | tojson }}'
                  data-name="{{ schedule.name }}"
                  data-preferred-name="{{ schedule.prefered_name or '' }}" data-open="{% if schedule.employee %}0{% else %}1{% endif %}"
                  data-employee="{{ schedule.employee or '' }}"
@@ -317,7 +333,7 @@
 {% endfor %}
 {% for schedule in Employee_Schedule %}
   {% set employee_name = schedule.prefered_name %}
-  {% if employee_name and employee_name not in unique_employees_dict %}
+  {% if employee_name and employee_name not in unique_employees_dict and schedule.employee not in hidden_employees %}
     {% set _dummy = unique_employees_dict.update({employee_name: true}) %}
     <label>
       <input type="checkbox" class="filterEmployee" value="{{ employee_name }}" checked>{{ employee_name }}
@@ -400,7 +416,8 @@
       </div>
       <label class="mgr-check"><input type="checkbox" id="f-published" checked> Published (visible on My Shifts)</label>
     </div>
-    <p id="mgrLockNote" class="mgr-lock-note" hidden>Past shifts are locked. Ask a System Manager.</p>
+    <div id="mgrWorked" class="mgr-worked" hidden></div>
+    <p id="mgrLockNote" class="mgr-lock-note" hidden>Past shift: view only. It can't be edited or deleted here.</p>
     <p id="mgrMsg" class="mgr-msg"></p>
     <div class="mgr-modal-actions">
       <button type="button" class="mgr-btn danger" id="btnDelete" hidden>Delete</button>

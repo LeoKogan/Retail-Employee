@@ -260,6 +260,11 @@
       "file": "employee_checkin_store_schedule.json",
       "name": "Employee Checkin-store_schedule",
       "dt": "Employee Checkin"
+    },
+    {
+      "file": "employee_employee_category.json",
+      "name": "Employee-employee_category",
+      "dt": "Employee"
     }
   ]
 }
